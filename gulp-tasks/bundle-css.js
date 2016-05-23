@@ -18,13 +18,27 @@ module.exports = function setupTask(gulp, bundles) {
       if (!config.styles) {
         continue;
       }
-      
+
       for (var i = 0; i < config.styles.length; i++) {
-        var style = config.styles[i];
+        var style = config.styles[i],
+          dest = null,
+          src = null;
+
+        if (!path.isAbsolute(config.outputFolder)) {
+          dest = path.join(bundles.workingDir, config.outputFolder, 'css', config.name);
+        } else {
+          dest = path.join(config.outputFolder, 'css', config.name);
+        }
+
+        if (!path.isAbsolute(style.indexFile)) {
+          src = path.join(bundles.workingDir, style.indexFile);
+        } else {
+          src = style.indexFile;
+        }
 
         var cssStream = bundleStyles(gulp, {
           name: style.name,
-          dest: path.join(config.outputFolder, 'css', config.name),
+          dest: dest,
           indexFile: style.indexFile,
           mapsDest: config.mapsDest
         });
