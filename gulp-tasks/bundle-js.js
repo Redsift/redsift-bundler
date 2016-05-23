@@ -27,14 +27,30 @@ module.exports = function setupTask(gulp, bundles) {
       for (var i = 0; i < config.formats.length; i++) {
         var format = config.formats[i],
           moduleName = config.moduleNameJS,
-          dest = null;
+          dest = null,
+          src = null;
+
+        if (!path.isAbsolute(config.mainJS.indexFile)) {
+          src = path.join(bundles.workingDir, config.mainJS.indexFile);
+        } else {
+          src = config.mainJS.indexFile;
+        }
 
         if (format === 'es6') {
-          dest = path.join(config.outputFolder, 'js', config.name || '', config.mainJS.name + '.es2015.js');
-          bundleES6(config.mainJS.indexFile, dest, config.externalMappings);
+          if (!path.isAbsolute(config.outputFolder)) {
+            dest = path.join(bundles.workingDir, config.outputFolder, 'js', config.name || '', config.mainJS.name + '.es2015.js');
+          } else {
+            dest = path.join(config.outputFolder, 'js', config.name || '', config.mainJS.name + '.es2015.js');
+          }
+
+          bundleES6(src, dest, config.externalMappings);
         } else {
-          dest = path.join(config.outputFolder, 'js', config.name || '', config.mainJS.name + '.' + format + '-es2015.js');
-          transpileES6(config.mainJS.indexFile, dest, format, moduleName, config.externalMappings);
+          if (!path.isAbsolute(config.outputFolder)) {
+            dest = path.join(bundles.workingDir, config.outputFolder, 'js', config.name || '', config.mainJS.name + '.' + format + '-es2015.js');
+          } else {
+            dest = path.join(config.outputFolder, 'js', config.name || '', config.mainJS.name + '.' + format + '-es2015.js');
+          }
+          transpileES6(src, dest, format, moduleName, config.externalMappings);
         }
       }
     }
@@ -47,6 +63,8 @@ module.exports = function setupTask(gulp, bundles) {
 }
 
 function bundleES6(indexFile, dest, externalMappings) {
+  // console.log('[bundleES6] src: %s | dest: %s', indexFile, dest);
+
   // All external mappings have to be skipped by the nodeResolve plugin. Otherwise
   // the plugin would search for them in node_modules and complain if they are not found.
   var nodeResolveSkips = _.map(externalMappings, function(value, key) {
@@ -81,6 +99,8 @@ function bundleES6(indexFile, dest, externalMappings) {
 }
 
 function transpileES6(indexFile, dest, format, moduleName, externalMappings) {
+  // console.log('[transpileES6] src: %s | dest: %s', indexFile, dest);
+
   // All external mappings have to be skipped by the nodeResolve plugin. Otherwise
   // the plugin would search for them in node_modules and complain if they are not found.
   var nodeResolveSkips = _.map(externalMappings, function(value, key) {

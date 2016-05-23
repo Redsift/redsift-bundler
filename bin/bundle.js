@@ -10,8 +10,10 @@ var shell = require('shelljs'),
     .describe('c', 'Bundle configuration file')
     .argv;
 
+console.log('Working dir: ' + process.cwd());
+
 var gulpfile = path.join(__dirname, '..', 'gulpfile.js'),
-    exec = 'gulp --gulpfile ' + gulpfile + ' -c ' + argv.c;
+    exec = 'gulp --gulpfile ' + gulpfile + ' -c ' + argv.c + ' -w ' + process.cwd();
 
 console.log('exec: ' + exec);
 
