@@ -1,5 +1,5 @@
 {
-  "name": "redsift-bundler",
+  "name": "@redsift/redsift-bundler",
   "version": "0.1.0",
   "description": "An ES2015/Stylus bundler with multiple configuration support.",
   "bin": {

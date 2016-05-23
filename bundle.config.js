@@ -1,3 +1,7 @@
+//
+// EXAMPLE configuration file with multpile bundles as output
+//
+
 var paths = {
   dest: './dist'
 }
