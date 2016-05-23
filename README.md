@@ -67,6 +67,7 @@ var myBundleConfig = {
     indexFile: './src/js/index.js'
   },  
   // the CSS/Stylus index file. Output CSS will be written to a file with the given 'name' within 'outputFolder/css'
+  // multiple output files can be created, e.g. to create multiple CSS themes (see the real-world example below)
   styles: [{
     name: 'mybundle',
     indexFile: './src/styles/index.styl'
