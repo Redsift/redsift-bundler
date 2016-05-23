@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/Redsift/redsift-bundler.git"
+    "url": "git@github.com:Redsift/redsift-bundler.git"
   },
   "keywords": [
     "redsift",
