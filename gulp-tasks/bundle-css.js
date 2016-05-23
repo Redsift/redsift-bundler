@@ -39,7 +39,7 @@ module.exports = function setupTask(gulp, bundles) {
         var cssStream = bundleStyles(gulp, {
           name: style.name,
           dest: dest,
-          indexFile: style.indexFile,
+          indexFile: src,
           mapsDest: config.mapsDest
         });
         gulpStream.add(cssStream);
