@@ -41,8 +41,7 @@ gulp.task('serve', ['default', 'browser-sync'], function() {
     });
 });
 
-// gulp.task('build', ['bundle-js', 'bundle-css']);
-gulp.task('build', ['bundle-js']);
+gulp.task('build', ['bundle-js', 'bundle-css']);
 
 gulp.task('clean', function() {
     return del(['dist/**']);
