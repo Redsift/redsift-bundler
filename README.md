@@ -46,13 +46,56 @@ Options:
   -c  Bundle configuration file [required]
 ```
 
-## Example config file
+The bundler needs a configuration file which is oriented very close to the configuration properties of [Rollup](http://rollupjs.org/). Have a look at Rollup's documentation to understand the used options in detail.
+
+## Simple config file
+
+This simple configuration file takes the ES2015 Javascript file `./src/js/index.js` and the Stylus file `./src/styles/index.styl` and outputs it as a bundle into `./dist/mybundle`. The folder will container a `js` and a `css` folder with the bundled files and outputs a non-minified and a minified version of the bundle together with sourcemaps.
+
+```javascript
+var paths = {
+  dest: './dist'
+}
+
+// We create a single bundle:
+var myBundleConfig = {
+  // nsmr of the bundle (a folder with this name will be created in the 'outputFolder'
+  name: 'mybundle',
+  // the Javascript index file. Output Javascript will be written to a file with the given 'name' within 'outputFolder/js'
+  mainJS: {
+    name: 'mybundle',
+    indexFile: './src/js/index.js'
+  },  
+  // the CSS/Stylus index file. Output CSS will be written to a file with the given 'name' within 'outputFolder/css'
+  styles: [{
+    name: 'mybundle',
+    indexFile: './src/styles/index.styl'
+  }],
+  // list of formats which are going to be created. Valid formats are described in the Rollup documentation
+  formats: ['es6', 'umd'],
+  // the output folder of the bundle
+  outputFolder: paths.dest,
+  // the module name for formats in the global namespace, e.g. 'umd'
+  moduleNameJS: 'Redsift',
+  // The destination of the sourcemaps relative to 'outputFolder'
+  mapsDest: '.',
+  // external mappings allow you to exclude the bundling of the named libraries. See the 'real world' example and the 
+  // Rollup documentation regarding this option. For the simple example we are including everything into the bundle, so
+  // there is no need for that here.
+  externalMappings: {
+    // 'd3': 'd3'
+  }
+};
+
+// export the config as array. Muliple bundles can be defined (see real-world example below)
+module.exports = [ myBundleConfig ];
+```
+
+## Real-world example
 
 The example configuration file is taken from the [RedsiftUI](https://github.com/Redsift/redsift-ui/) repository. Have a look at the project to see the file structure which corresponds to this config file.
 
 The configuration creates the bundles `core`, `sift`, `full` and `crx` and stores them in the `./dist` folder.
-
-The configuration file is oriented very close to the configuration properties of Rollup. Have a look at Rollup's documentation to understand the used options.
 
 ```javascript
 var paths = {
