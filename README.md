@@ -20,6 +20,23 @@ npm install -g @redsift/redsift-bundler
 
 which both will provide you with the `redsift-bundler` executable.
 
+For convenience add the bundler to your `package.json` file within the `script` section:
+
+```javascript
+"scripts": {
+    "build": "redsift-bundler -c ./bundle.config.js",
+    ...
+  }
+```
+
+This allows you to call
+
+```bash
+npm run build
+```
+
+in the project folder to create the bundle(s).
+
 # Usage
 
 ```bash
@@ -37,7 +54,7 @@ The configuration creates the bundles `core`, `sift`, `full` and `crx` and store
 
 The configuration file is oriented very close to the configuration properties of Rollup. Have a look at Rollup's documentation to understand the used options.
 
-```Javascript
+```javascript
 var paths = {
   dest: './dist'
 }
