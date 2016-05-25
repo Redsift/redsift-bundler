@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-console.log('starting bundling');
-
 var shell = require('shelljs'),
     path = require('path'),
     argv = require('yargs')
@@ -13,7 +11,7 @@ var shell = require('shelljs'),
 console.log('Working dir: ' + process.cwd());
 
 var gulpfile = path.join(__dirname, '..', 'gulpfile.js'),
-    exec = 'gulp --gulpfile ' + gulpfile + ' -c ' + argv.c + ' -w ' + process.cwd();
+    exec = 'gulp --gulpfile ' + gulpfile + ' -c ' + argv.c + ' -w ' + process.cwd() + ' build';
 
 console.log('exec: ' + exec);
 

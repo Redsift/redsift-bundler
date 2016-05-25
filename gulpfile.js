@@ -11,12 +11,17 @@ var gulp = require('gulp'),
     .describe('w', 'Bundle working directory (i.e. paths in bundle config file are relative to this)')
     .argv;
 
-var bundleConfigPath = path.join(argv.w, argv.c);
 
-console.log('[redsift-bundler] Loading bundle config from: ' + bundleConfigPath);
+var bundleConfigPath = null;
 
-var bundleConfig = require(bundleConfigPath);
-bundleConfig['workingDir'] = argv.w;
+if (argv.w && argv.c) {
+  bundleConfigPath = path.join(argv.w, argv.c);
+  console.log('[redsift-bundler] Loading bundle config from: ' + bundleConfigPath);
+  
+  var bundleConfig = require(bundleConfigPath);
+  bundleConfig['workingDir'] = argv.w;
+}
+
 
 function getTask(task) {
     return require(path.join(__dirname, './gulp-tasks/' + task))(gulp, bundleConfig);
