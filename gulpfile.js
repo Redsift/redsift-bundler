@@ -17,7 +17,7 @@ var bundleConfigPath = null;
 if (argv.w && argv.c) {
   bundleConfigPath = path.join(argv.w, argv.c);
   console.log('[redsift-bundler] Loading bundle config from: ' + bundleConfigPath);
-  
+
   var bundleConfig = require(bundleConfigPath);
   bundleConfig['workingDir'] = argv.w;
 }
@@ -29,6 +29,7 @@ function getTask(task) {
 
 gulp.task('bundle-js', getTask('bundle-js'));
 gulp.task('bundle-css', getTask('bundle-css'));
+gulp.task('svg-sprite', getTask('svg-sprite'));
 
 gulp.task('css-watch', ['bundle-css'], function() {
     browserSync.reload('*.css');
@@ -39,9 +40,9 @@ gulp.task('js-watch', ['bundle-js'], function() {
 });
 
 gulp.task('serve', ['default', 'browser-sync'], function() {
-    gulp.watch(['./components/**/*.{import.styl,styl,css}', './bundles/**/*.{import.styl,styl,css}'], ['css-watch']);
-    gulp.watch(['./components/**/*.{js,tmpl}', './bundles/**/*.{js,tmpl}'], ['js-watch']);
-    gulp.watch('./samples/**/*.html').on('change', function() {
+    // gulp.watch(['./components/**/*.{import.styl,styl,css}', './bundles/**/*.{import.styl,styl,css}'], ['css-watch']);
+    // gulp.watch(['./components/**/*.{js,tmpl}', './bundles/**/*.{js,tmpl}'], ['js-watch']);
+    gulp.watch(path.join(bundleConfig.workingDir, '/samples/**/*.html')).on('change', function() {
         browserSync.reload('*.html');
     });
 });
@@ -57,7 +58,11 @@ gulp.task('default', ['build']);
 gulp.task('browser-sync', function() {
     browserSync.init({
         server: {
-            baseDir: ['./samples', './dist', './assets'],
+            baseDir: [
+              path.join(bundleConfig.workingDir, './samples'),
+              path.join(bundleConfig.workingDir, './dist'),
+              path.join(bundleConfig.workingDir, './assets')
+            ],
             directory: true
         }
     });
