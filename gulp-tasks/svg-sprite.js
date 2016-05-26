@@ -1,4 +1,7 @@
 var svgSprite = require('gulp-svg-sprite'),
+    html2jsx = require('gulp-html2jsx'),
+    rename = require('gulp-rename'),
+    replace = require('gulp-replace'),
     path = require('path'),
     _ = require('lodash');
 
@@ -21,7 +24,15 @@ module.exports = function setupTask(gulp, bundles) {
                 dest = svgSpriteConfig.dest;
             }
 
-            createSVGSprite(gulp, src, dest, svgSpriteConfig.config);
+            var jsxConfig = null;
+            if (bundles[idx].transform && bundles[idx].transform.jsx) {
+                jsxConfig = bundles[idx].transform.jsx;
+
+                if (!path.isAbsolute(jsxConfig.dest)) {
+                    jsxConfig.dest = path.join(bundles.workingDir, jsxConfig.dest);
+                }
+            }
+            createSVGSprite(gulp, src, dest, svgSpriteConfig.config, jsxConfig);
         }
     }
 
@@ -31,10 +42,25 @@ module.exports = function setupTask(gulp, bundles) {
     return task;
 }
 
-function createSVGSprite(gulp, srcGlob, dest, svgSpriteConfig) {
-    gulp.src(srcGlob)
+function createSVGSprite(gulp, srcGlob, dest, svgSpriteConfig, jsxConfig) {
+    var stream = gulp.src(srcGlob)
         .pipe(svgSprite(svgSpriteConfig))
         .pipe(gulp.dest(dest));
 
-    console.log('Wrote sprite files to %s');
+    // FIXXME: this is very specific at the moment. generalize!
+    if (jsxConfig) {
+        gulp.src(path.join(dest, 'symbol/svg/sprite.symbol.svg'))
+            .pipe(html2jsx(jsxConfig.config))
+            .pipe(replace('render: function() {', 'render() {'))
+            .pipe(replace('{/*?xml version="1.0" encoding="utf-8"?*/}', ''))
+            .pipe(replace(' xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"', ''))
+            .pipe(replace('<svg>', '<svg style={{display: "none"}}>'))
+            .pipe(replace('var Icons = React.createClass({', 'export default class Icons extends React.Component {'))
+            .pipe(replace('});', '}'))
+            .pipe(rename('_icons.jsx'))
+            .pipe(gulp.dest(jsxConfig.dest));
+    }
+
+
+    console.log('Wrote sprite files to %s', path.join(jsxConfig.dest));
 }
