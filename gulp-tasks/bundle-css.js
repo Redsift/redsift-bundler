@@ -1,50 +1,47 @@
-var stylus = require('gulp-stylus'),
-  concat = require('gulp-concat'),
-  minifyCss = require('gulp-cleancss'),
-  sourcemaps = require('gulp-sourcemaps'),
-  autoprefixer = require('gulp-autoprefixer'),
-  rename = require('gulp-rename'),
-  plumber = require('gulp-plumber'),
-  path = require('path'),
-  mergeStream = require('merge-stream');
+import stylus from 'gulp-stylus';
+import concat from 'gulp-concat';
+import minifyCss from 'gulp-cleancss';
+import sourcemaps from 'gulp-sourcemaps';
+import autoprefixer from 'gulp-autoprefixer';
+import rename from 'gulp-rename';
+import plumber from 'gulp-plumber';
+import path from 'path';
+import mergeStream from 'merge-stream';
 
+// Don't use 'export default ...' here, as it does not work with the conditional
+// 'require' in the calling gulpfile
 module.exports = function setupTask(gulp, bundles) {
   function task() {
     var gulpStream = mergeStream(); // creates a new stream
 
-    for (var idx = 0; idx < bundles.length; idx++) {
-      var config = bundles[idx];
+    bundles.forEach(config => {
+      if (config.styles) {
+        config.styles.forEach(style => {
+          var dest = null,
+            src = null;
 
-      if (!config.styles) {
-        continue;
-      }
+          if (!path.isAbsolute(config.outputFolder)) {
+            dest = path.join(bundles.workingDir, config.outputFolder, 'css', config.name);
+          } else {
+            dest = path.join(config.outputFolder, 'css', config.name);
+          }
 
-      for (var i = 0; i < config.styles.length; i++) {
-        var style = config.styles[i],
-          dest = null,
-          src = null;
+          if (!path.isAbsolute(style.indexFile)) {
+            src = path.join(bundles.workingDir, style.indexFile);
+          } else {
+            src = style.indexFile;
+          }
 
-        if (!path.isAbsolute(config.outputFolder)) {
-          dest = path.join(bundles.workingDir, config.outputFolder, 'css', config.name);
-        } else {
-          dest = path.join(config.outputFolder, 'css', config.name);
-        }
-
-        if (!path.isAbsolute(style.indexFile)) {
-          src = path.join(bundles.workingDir, style.indexFile);
-        } else {
-          src = style.indexFile;
-        }
-
-        var cssStream = bundleStyles(gulp, {
-          name: style.name,
-          dest: dest,
-          indexFile: src,
-          mapsDest: config.mapsDest
+          var cssStream = bundleStyles(gulp, {
+            name: style.name,
+            dest: dest,
+            indexFile: src,
+            mapsDest: config.mapsDest
+          });
+          gulpStream.add(cssStream);
         });
-        gulpStream.add(cssStream);
       }
-    }
+    });
 
     return gulpStream.isEmpty() ? null : gulpStream;
   }
