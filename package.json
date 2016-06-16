@@ -1,11 +1,12 @@
 {
   "name": "@redsift/redsift-bundler",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "An ES2015/Stylus bundler with multiple configuration support.",
   "bin": {
     "redsift-bundler": "./bin/bundle.js",
     "redsift-serve": "./bin/serve.js",
-    "redsift-svg-sprite": "./bin/svg-sprite.js"
+    "redsift-svg-sprite": "./bin/svg-sprite.js",
+    "redsift-image-sprite": "./bin/image-sprite.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -63,6 +64,7 @@
     "rollup-plugin-string": "^1.0.1",
     "rollup-plugin-uglify": "^0.3.1",
     "shelljs": "^0.7.0",
+    "sprity": "^1.0.8",
     "svg-sprite": "^1.3.1",
     "yargs": "^4.7.1"
   }
