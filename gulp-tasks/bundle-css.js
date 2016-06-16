@@ -23,12 +23,15 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
         var style = config.styles[i],
           dest = null,
           src = null,
-          mapsDest = null;
+          mapsDest = null,
+          outputSubFolder = (bundles.length > 1) ? style.name : '';
 
+          console.log('bundles.length: ' + bundles.length);
+          
         if (!path.isAbsolute(config.outputFolder)) {
-          dest = path.join(bundlerOpts.workingDir, config.outputFolder, 'css', style.name);
+          dest = path.join(bundlerOpts.workingDir, config.outputFolder, 'css', outputSubFolder);
         } else {
-          dest = path.join(config.outputFolder, 'css', style.name);
+          dest = path.join(config.outputFolder, 'css', outputSubFolder);
         }
 
         if (!path.isAbsolute(style.indexFile)) {
