@@ -12,19 +12,20 @@ var gulp = require('gulp'),
     .argv;
 
 
-var bundleConfigPath = null;
+var bundleConfigPath = null,
+    opts = {};
 
 if (argv.w && argv.c) {
   bundleConfigPath = path.join(argv.w, argv.c);
   console.log('[redsift-bundler] Loading bundle config from: ' + bundleConfigPath);
 
   var bundleConfig = require(bundleConfigPath);
-  bundleConfig['workingDir'] = argv.w;
+  opts['workingDir'] = argv.w;
 }
 
 
 function getTask(task) {
-    return require(path.join(__dirname, './gulp-tasks/' + task))(gulp, bundleConfig);
+    return require(path.join(__dirname, './gulp-tasks/' + task))(gulp, bundleConfig, opts);
 }
 
 gulp.task('bundle-js', getTask('bundle-js'));

@@ -19,7 +19,7 @@ var rollup = require('rollup'),
 //     extensions: ['.js']
 // };
 
-module.exports = function setupTask(gulp, bundles) {
+module.exports = function setupTask(gulp, bundles, bundlerOpts) {
   function task() {
     for (var idx = 0; idx < bundles.length; idx++) {
       var config = bundles[idx];
@@ -31,14 +31,14 @@ module.exports = function setupTask(gulp, bundles) {
           src = null;
 
         if (!path.isAbsolute(config.mainJS.indexFile)) {
-          src = path.join(bundles.workingDir, config.mainJS.indexFile);
+          src = path.join(bundlerOpts.workingDir, config.mainJS.indexFile);
         } else {
           src = config.mainJS.indexFile;
         }
 
         if (format === 'es6') {
           if (!path.isAbsolute(config.outputFolder)) {
-            dest = path.join(bundles.workingDir, config.outputFolder, 'js', config.name || '', config.mainJS.name + '.es2015.js');
+            dest = path.join(bundlerOpts.workingDir, config.outputFolder, 'js', config.name || '', config.mainJS.name + '.es2015.js');
           } else {
             dest = path.join(config.outputFolder, 'js', config.name || '', config.mainJS.name + '.es2015.js');
           }
@@ -46,7 +46,7 @@ module.exports = function setupTask(gulp, bundles) {
           bundleES6(src, dest, config.externalMappings);
         } else {
           if (!path.isAbsolute(config.outputFolder)) {
-            dest = path.join(bundles.workingDir, config.outputFolder, 'js', config.name || '', config.mainJS.name + '.' + format + '-es2015.js');
+            dest = path.join(bundlerOpts.workingDir, config.outputFolder, 'js', config.name || '', config.mainJS.name + '.' + format + '-es2015.js');
           } else {
             dest = path.join(config.outputFolder, 'js', config.name || '', config.mainJS.name + '.' + format + '-es2015.js');
           }
@@ -70,6 +70,9 @@ function bundleES6(indexFile, dest, externalMappings) {
   var nodeResolveSkips = _.map(externalMappings, function(value, key) {
     return key;
   });
+
+  console.log('[bundle-js::bundleES6] index file:  ' + indexFile);
+  console.log('[bundle-js::bundleES6] dest folder: ' + dest);
 
   rollup.rollup({
     entry: indexFile,
@@ -106,6 +109,9 @@ function transpileES6(indexFile, dest, format, moduleName, externalMappings) {
   var nodeResolveSkips = _.map(externalMappings, function(value, key) {
     return key;
   });
+
+  console.log('[bundle-js::transpileES6] index file:  ' + indexFile);
+  console.log('[bundle-js::transpileES6] dest folder: ' + dest);
 
   rollup.rollup({
     entry: indexFile,
