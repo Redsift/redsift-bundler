@@ -87,7 +87,7 @@ function bundleStyles(gulp, opts) {
       console.error('[redsift-bundler] ERROR: "useNormalizeCSS" is set to true, but %s does not exist. Install it with "npm install normalize.css"!');
       console.log('[redsift-bundler] continuing WITHOUT bundling normalize.css');
     }
-    srcFiles.push(path.join(normalizeCSSFolder, '**.css'));
+    srcFiles.unshift(path.join(normalizeCSSFolder, '**.css'));
   }
 
   return gulp.src(srcFiles)
