@@ -11,6 +11,7 @@ var defaultConfig = {
     outputFolder: paths.dest,
     moduleNameJS: 'Redsift',
     mapsDest: '.',
+    useNormalizeCSS: true,
     externalMappings: {
         'd3-selection': 'd3',
         'd3-scale': 'd3',

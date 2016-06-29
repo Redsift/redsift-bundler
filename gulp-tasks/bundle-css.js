@@ -6,6 +6,7 @@ var stylus = require('gulp-stylus'),
   rename = require('gulp-rename'),
   plumber = require('gulp-plumber'),
   path = require('path'),
+  fs = require('fs'),
   mergeStream = require('merge-stream');
 
 module.exports = function setupTask(gulp, bundles, bundlerOpts) {
@@ -27,7 +28,7 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
           outputSubFolder = (bundles.length > 1) ? style.name : '';
 
           console.log('bundles.length: ' + bundles.length);
-          
+
         if (!path.isAbsolute(config.outputFolder)) {
           dest = path.join(bundlerOpts.workingDir, config.outputFolder, 'css', outputSubFolder);
         } else {
@@ -54,7 +55,8 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
           name: style.name,
           dest: dest,
           indexFile: src,
-          mapsDest: config.mapsDest
+          mapsDest: config.mapsDest,
+          useNormalizeCSS: config.useNormalizeCSS
         });
         gulpStream.add(cssStream);
       }
@@ -70,10 +72,25 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
 }
 
 function bundleStyles(gulp, opts) {
-  return gulp.src([
-      './node_modules/normalize.css/**.css',
-      opts.indexFile
-    ])
+  var srcFiles = [ opts.indexFile ];
+  var normalizeCSSFolder = './node_modules/normalize.css';
+
+  if (opts.useNormalizeCSS) {
+    try {
+        var stats = fs.lstatSync(normalizeCSSFolder);
+        console.log('[redsift-bundler] Checking for normalize.css...')
+        if (stats.isDirectory()) {
+          console.log('[redsift-bundler]   found')
+        }
+    }
+    catch (e) {
+      console.error('[redsift-bundler] ERROR: "useNormalizeCSS" is set to true, but %s does not exist. Install it with "npm install normalize.css"!');
+      console.log('[redsift-bundler] continuing WITHOUT bundling normalize.css');
+    }
+    srcFiles.push(path.join(normalizeCSSFolder, '**.css'));
+  }
+
+  return gulp.src(srcFiles)
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(stylus())
