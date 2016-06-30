@@ -27,7 +27,7 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
           mapsDest = null,
           outputSubFolder = (bundles.length > 1) ? style.name : '';
 
-          console.log('bundles.length: ' + bundles.length);
+          // console.log('bundles.length: ' + bundles.length);
 
         if (!path.isAbsolute(config.outputFolder)) {
           dest = path.join(bundlerOpts.workingDir, config.outputFolder, 'css', outputSubFolder);
@@ -47,9 +47,9 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
           mapsDest = config.mapsDest;
         }
 
-        console.log('[bundle-css] index file:  ' + src);
-        console.log('[bundle-css] dest folder: ' + dest);
-        console.log('[bundle-css] map folder:  ' + mapsDest);
+        // console.log('[bundle-css] index file:  ' + src);
+        // console.log('[bundle-css] dest folder: ' + dest);
+        // console.log('[bundle-css] map folder:  ' + mapsDest);
 
         var cssStream = bundleStyles(gulp, {
           name: style.name,
@@ -78,14 +78,14 @@ function bundleStyles(gulp, opts) {
   if (opts.useNormalizeCSS) {
     try {
         var stats = fs.lstatSync(normalizeCSSFolder);
-        console.log('[redsift-bundler] Checking for normalize.css...')
+        console.log('[bundle-css] Checking for normalize.css...');
         if (stats.isDirectory()) {
-          console.log('[redsift-bundler]   found')
+          console.log('[bundle-css]   found');
         }
     }
     catch (e) {
-      console.error('[redsift-bundler] ERROR: "useNormalizeCSS" is set to true, but %s does not exist. Install it with "npm install normalize.css"!');
-      console.log('[redsift-bundler] continuing WITHOUT bundling normalize.css');
+      console.error('[bundle-css] ERROR: "useNormalizeCSS" is set to true, but %s does not exist. Install it with "npm install normalize.css"!');
+      console.log('[bundle-css] continuing WITHOUT bundling normalize.css');
     }
     srcFiles.unshift(path.join(normalizeCSSFolder, '**.css'));
   }

@@ -27,6 +27,7 @@
     "url": "https://github.com/Redsift/redsift-bundler/issues"
   },
   "homepage": "https://github.com/Redsift/redsift-bundler#readme",
+  "main": "./index.js",
   "dependencies": {
     "babel-polyfill": "^6.0.16",
     "babel-preset-es2015": "*",
