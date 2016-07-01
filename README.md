@@ -86,11 +86,11 @@ gulp.task('build', ['bundle-js', 'bundle-css'], function() {
 });
 ```
 
-`RSBundler` takes care of loading the two tasks for bundling Javascript (`bundle-js`) and CSS (`bundle-css`) and sets them up with the `bundleConfig`. The `build` task runs both tasks and prints a bundle summary after a successful build.
+`RSBundler` takes care of loading the two tasks for bundling Javascript (`bundle-js`) and CSS (`bundle-css`) and sets them up with the `bundleConfig`. `gulp build` will run both tasks and prints a bundle summary after a successful build.
 
 ## Configuration file
 
-This example configuration file takes the ES2015 Javascript file `./src/js/index.js` and the Stylus file `./src/styles/index.styl` and outputs the bundled files into `./dist/mybundle`. The folder will contain a `js` and a `css` sub folder with the bundled files and outputs a non-minified and a minified version of the bundle together with sourcemaps.
+This example configuration file takes the ES2015 Javascript file `./src/js/index.js` and the Stylus file `./src/styles/index.styl` and outputs the bundled files into `./dist/mybundle`. The folder will contain a `js` and a `css` sub folder with the bundled files and outputs a non-minified and a minified version of the bundle together with sourcemaps. If your are bundling a library the exported Javascript functionality will be accessible via the global variable `window.MyBundle` after importing the bundle.
 
 ```javascript
 var paths = {
