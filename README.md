@@ -1,30 +1,62 @@
 # redsift-bundler
 
-A bundler for ES2015 Javascript and [Stylus](http://stylus-lang.org) CSS. It's intention is to have a central bundle setup that is configured by a config file. The application developer should not have to care about setting tasks for transpiling, concatenating, pre-processing, etc. of source files. Provided with a config file the `redsift-bundler` takes care of that.
+`redsift-bundler` is a collection of functionality which takes care of the bundling and building process of a Javascript ES2015 application. It supports
 
-The bundler is based on [Rollup](http://rollupjs.org/) and [gulp-stylus](https://github.com/stevelacy/gulp-stylus).
+* bundling of an ES2015 Javascript application/library into a single ES2015 file for distribution
+* the creation of a ES5 version of the bundler
+* the creation of a single CSS file from a set of CSS or [Stylus](stylus-lang.com) files (with support for creating multiple CSS themes easily).
+
+`redsift-bundler` comes in two flavours. You can either use it as a standalone tool which makes it easy to quickly build an app/lib from the command line. The standalone tool can also be integrated into your NPM workflow e.g. as `npm build` command.
+
+The second, more flexible alternative is to integrate the bundling functionaltiy via the [Gulp](http://gulpjs.com/) build tool. Simply use our handy Gulp tasks directly in your `gulpfile`.
+
+The setup of the distribution bundle is done in a single configuration file for the standalone usage, as well as for using the gulp tasks. See below on how to configure your application/library.
+
+The idea of this bundler is to have a central tool which takes care of the repetitive task of creating distribution bundles from a Javascript application/library. Maintaining the build process of many different Javascript projects e.g. with a `gulpfile` becomes tedious when you enhance or fix something, because every `gulpfile` in each repository has to be updated. The `redsift-bundler` solves this problem. Include it in your project as NPM module and simply update the module, if necessary.
 
 # Installation
 
-In your project folder do a local installation of the NPM package with
-
-```bash
-npm install --save-dev @redsift/redsift-bundler
-```
-
-or install it globally with
+If you are using the bundler on the command line install it globally:
 
 ```bash
 npm install -g @redsift/redsift-bundler
 ```
 
-which both will provide you with the `redsift-bundler` executable.
+When using it directly with `gulp` do a project local installation:
 
-For convenience add the bundler to your `package.json` file within the `script` section:
+```bash
+npm install --save-dev @redsift/redsift-bundler
+```
+
+# Command line usage
+
+```bash
+Usage: redsift-bundler -c [config-file]
+
+Options:
+  -c  Bundle configuration file [required]
+```
+
+> CAUTION: For the `redsift-bundler` executable to exist it has to be installed globally before!
+
+The bundler needs a configuration file which is oriented very close to the configuration properties of [Rollup](http://rollupjs.org/). Have a look at Rollup's documentation to understand the used options in detail.
+
+# Usage as NPM command
+
+To be able to run the bundler as NPM command add the following configuration to your `package.json` file within the `script` section:
 
 ```javascript
 "scripts": {
     "build": "redsift-bundler -c ./bundle.config.js",
+    ...
+  }
+```
+
+If you prefer not to use the globally installed version of the bundler for the NPM command install it locally first and use this configuration:
+
+```javascript
+"scripts": {
+    "build": "./node_modules/@redsift/redsift-bundler -c ./bundle.config.js",
     ...
   }
 ```
@@ -37,20 +69,28 @@ npm run build
 
 in the project folder to create the bundle(s).
 
-# Usage
+# Using the gulp tasks directly (fastest and most flexible)
 
-```bash
-Usage: redsift-bundler -c [config-file]
+If you already have a Gulpfile (or simply want to use Gulp instead of the standalone bundler) add the following lines to your `gulpfile`:
 
-Options:
-  -c  Bundle configuration file [required]
+```javascript
+var RSBundler = require('@redsift/redsift-bundler');
+var bundleConfig = require('./bundle.config.js');
+
+gulp.task('bundle-js', RSBundler.loadTask(gulp, 'bundle-js', bundleConfig));
+gulp.task('bundle-css', RSBundler.loadTask(gulp, 'bundle-css', bundleConfig));
+
+gulp.task('build', ['bundle-js', 'bundle-css'], function() {
+  console.log('\n* Bundling complete:\n');
+  RSBundler.printBundleSummary(bundleConfig);
+});
 ```
 
-The bundler needs a configuration file which is oriented very close to the configuration properties of [Rollup](http://rollupjs.org/). Have a look at Rollup's documentation to understand the used options in detail.
+`RSBundler` takes care of loading the two tasks for bundling Javascript (`bundle-js`) and CSS (`bundle-css`) and sets them up with the `bundleConfig`. The `build` task runs both tasks and prints a bundle summary after a successful build.
 
-## Simple config file
+## Configuration file
 
-This simple configuration file takes the ES2015 Javascript file `./src/js/index.js` and the Stylus file `./src/styles/index.styl` and outputs it as a bundle into `./dist/mybundle`. The folder will container a `js` and a `css` folder with the bundled files and outputs a non-minified and a minified version of the bundle together with sourcemaps.
+This example configuration file takes the ES2015 Javascript file `./src/js/index.js` and the Stylus file `./src/styles/index.styl` and outputs the bundled files into `./dist/mybundle`. The folder will contain a `js` and a `css` sub folder with the bundled files and outputs a non-minified and a minified version of the bundle together with sourcemaps.
 
 ```javascript
 var paths = {
@@ -59,8 +99,6 @@ var paths = {
 
 // We create a single bundle:
 var myBundleConfig = {
-  // nsmr of the bundle (a folder with this name will be created in the 'outputFolder'
-  name: 'mybundle',
   // the Javascript index file. Output Javascript will be written to a file with the given 'name' within 'outputFolder/js'
   mainJS: {
     name: 'mybundle',
@@ -70,17 +108,17 @@ var myBundleConfig = {
   // multiple output files can be created, e.g. to create multiple CSS themes (see the real-world example below)
   styles: [{
     name: 'mybundle',
-    indexFile: './src/styles/index.styl'
+    indexFile: './src/index.styl'
   }],
   // list of formats which are going to be created. Valid formats are described in the Rollup documentation
   formats: ['es6', 'umd'],
   // the output folder of the bundle
   outputFolder: paths.dest,
-  // the module name for formats in the global namespace, e.g. 'umd'
-  moduleNameJS: 'Redsift',
+  // the module name that the exported JS code will be accessible at in the global namespace. Used by 'umd' and 'cjs' export formats (no function for 'es6' export)
+  moduleNameJS: 'MyBundle',
   // The destination of the sourcemaps relative to 'outputFolder'
   mapsDest: '.',
-  // external mappings allow you to exclude the bundling of the named libraries. See the 'real world' example and the 
+  // external mappings allow you to exclude the bundling of the named libraries. See the 'real world' example and the
   // Rollup documentation regarding this option. For the simple example we are including everything into the bundle, so
   // there is no need for that here.
   externalMappings: {
@@ -88,111 +126,10 @@ var myBundleConfig = {
   }
 };
 
-// export the config as array. Muliple bundles can be defined (see real-world example below)
+// export the config as array. Multiple bundles can be defined (see real-world example below)
 module.exports = [ myBundleConfig ];
 ```
 
-## Real-world example
+For a another simple example have a look at the [@redsift/ui-rs-core](https://github.com/Redsift/ui-rs-core/blob/master/bundle.config.js) repository.
 
-The example configuration file is taken from the [RedsiftUI](https://github.com/Redsift/redsift-ui/) repository. Have a look at the project to see the file structure which corresponds to this config file.
-
-The configuration creates the bundles `core`, `sift`, `full` and `crx` and stores them in the `./dist` folder.
-
-```javascript
-var paths = {
-  dest: './dist'
-}
-
-var defaultConfig = {
-  formats: ['es6', 'umd'],
-  outputFolder: paths.dest,
-  moduleNameJS: 'Redsift',
-  mapsDest: '.',
-  externalMappings: {
-    'd3-selection': 'd3',
-    'd3-scale': 'd3',
-    'd3-axis': 'd3',
-    'd3-time-format': 'd3',
-    'd3-time': 'd3'
-  }
-};
-
-var coreConfig = {
-  name: 'core',
-  mainJS: {
-    name: 'redsift',
-    indexFile: './bundles/core/index.js'
-  },
-  styles: [{
-    name: 'redsift-light',
-    indexFile: './bundles/core/redsift-light.styl'
-  }, {
-    name: 'redsift-dark',
-    indexFile: './bundles/core/redsift-dark.styl'
-  }, {
-    name: 'redsift-xtra',
-    indexFile: './bundles/core/redsift-xtra.styl'
-  }]
-};
-
-var siftConfig = {
-  name: 'sift',
-  mainJS: {
-    name: 'redsift',
-    indexFile: './bundles/sift/index.js'
-  },
-  styles: [{
-    name: 'redsift-light',
-    indexFile: './bundles/sift/redsift-light.styl'
-  }, {
-    name: 'redsift-dark',
-    indexFile: './bundles/sift/redsift-dark.styl'
-  }, {
-    name: 'redsift-xtra',
-    indexFile: './bundles/sift/redsift-xtra.styl'
-  }]
-};
-
-var fullConfig = {
-  name: 'full',
-  mainJS: {
-    name: 'redsift',
-    indexFile: './bundles/full/index.js'
-  },
-  styles: [{
-    name: 'redsift-light',
-    indexFile: './bundles/full/redsift-light.styl'
-  }, {
-    name: 'redsift-dark',
-    indexFile: './bundles/full/redsift-dark.styl'
-  }, {
-    name: 'redsift-xtra',
-    indexFile: './bundles/full/redsift-xtra.styl'
-  }]
-};
-
-var crxConfig = {
-  name: 'crx',
-  mainJS: {
-    name: 'redsift',
-    indexFile: './bundles/crx/index.js'
-  },
-  externalMappings: []
-};
-
-var bundles = [
-  merge(defaultConfig, coreConfig),
-  merge(defaultConfig, siftConfig),
-  merge(defaultConfig, fullConfig),
-  merge(defaultConfig, crxConfig)
-];
-
-module.exports = bundles;
-
-function merge(obj1, obj2) {
-  var newObj = JSON.parse(JSON.stringify(obj1));
-  Object.keys(obj1).forEach(function(key) { newObj[key] = obj1[key]; });
-  Object.keys(obj2).forEach(function(key) { newObj[key] = obj2[key]; });
-  return newObj;
-}
-```
+A real world example with multiple bundles, multiple themes and external mappings is available in the [@redsift/redsift-ui](https://github.com/Redsift/redsift-ui/blob/master/redsift-ui.config.js) repository.
