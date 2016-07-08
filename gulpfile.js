@@ -30,7 +30,6 @@ function getTask(task) {
 
 gulp.task('bundle-js', getTask('bundle-js'));
 gulp.task('bundle-css', getTask('bundle-css'));
-gulp.task('svg-sprite', getTask('svg-sprite'));
 
 gulp.task('css-watch', ['bundle-css'], function() {
     browserSync.reload('*.css');
