@@ -24,6 +24,8 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
       var configStyles = [];
       if (!_.isArray(config.styles)) {
         configStyles.push(config.styles);
+      } else {
+        configStyles = config.styles;
       }
 
       for (var i = 0; i < configStyles.length; i++) {
@@ -33,7 +35,7 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
           mapsDest = null,
           outputSubFolder = (configStyles.length > 1) ? style.name : '';
 
-          // console.log('bundles.length: ' + bundles.length);
+          // console.log('outputSubFolder: ' + outputSubFolder);
 
         if (!path.isAbsolute(config.outputFolder)) {
           dest = path.join(bundlerOpts.workingDir, config.outputFolder, 'css', outputSubFolder);
@@ -58,7 +60,7 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
         // console.log('[bundle-css] map folder:  ' + mapsDest);
 
         var cssStream = bundleStyles(gulp, {
-          name: style.name,
+          name: style.name || 'style',
           dest: dest,
           indexFile: src,
           mapsDest: config.mapsDest,
