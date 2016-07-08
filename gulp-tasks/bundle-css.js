@@ -7,7 +7,8 @@ var stylus = require('gulp-stylus'),
   plumber = require('gulp-plumber'),
   path = require('path'),
   fs = require('fs'),
-  mergeStream = require('merge-stream');
+  mergeStream = require('merge-stream'),
+  _ = require('lodash');
 
 module.exports = function setupTask(gulp, bundles, bundlerOpts) {
   function task() {
@@ -20,12 +21,17 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
         continue;
       }
 
-      for (var i = 0; i < config.styles.length; i++) {
-        var style = config.styles[i],
+      var configStyles = [];
+      if (!_.isArray(config.styles)) {
+        configStyles.push(config.styles);
+      }
+
+      for (var i = 0; i < configStyles.length; i++) {
+        var style = configStyles[i],
           dest = null,
           src = null,
           mapsDest = null,
-          outputSubFolder = (bundles.length > 1) ? style.name : '';
+          outputSubFolder = (configStyles.length > 1) ? style.name : '';
 
           // console.log('bundles.length: ' + bundles.length);
 
