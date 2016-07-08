@@ -93,7 +93,9 @@ function bundleStyles(gulp, opts) {
   return gulp.src(srcFiles)
     .pipe(plumber())
     .pipe(sourcemaps.init())
-    .pipe(stylus())
+    .pipe(stylus({
+      'include css': true
+    }))
     .pipe(concat(opts.name + '.css'))
     .pipe(autoprefixer({
       browsers: ['last 2 versions'],
