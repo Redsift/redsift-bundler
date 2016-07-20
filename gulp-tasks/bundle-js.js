@@ -36,7 +36,7 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
           src = config.mainJS.indexFile;
         }
 
-        if (format === 'es6') {
+        if (format === 'es') {
           if (!path.isAbsolute(config.outputFolder)) {
             dest = path.join(bundlerOpts.workingDir, config.outputFolder, 'js', config.name || '', config.mainJS.name + '.es2015.js');
           } else {
@@ -80,7 +80,7 @@ function bundleES6(indexFile, dest, externalMappings) {
     plugins: [
       json(),
       string({
-        extensions: ['.tmpl']
+        include: ['**/*.tmpl']
       }),
       // includePaths(includePathOptions),
       nodeResolve({
@@ -93,7 +93,7 @@ function bundleES6(indexFile, dest, externalMappings) {
     ]
   }).then(function(bundle) {
     bundle.write({
-      format: 'es6',
+      format: 'es',
       dest: dest
     });
   }).catch(function(err) {
@@ -119,7 +119,7 @@ function transpileES6(indexFile, dest, format, moduleName, externalMappings) {
     plugins: [
       json(),
       string({
-        extensions: ['.tmpl']
+        include: ['**/*.tmpl']
       }),
       // includePaths(includePathOptions),
       nodeResolve({
@@ -159,7 +159,7 @@ function transpileES6(indexFile, dest, format, moduleName, externalMappings) {
     plugins: [
       json(),
       string({
-        extensions: ['.tmpl']
+        include: ['**/*.tmpl']
       }),
       // includePaths(includePathOptions),
       nodeResolve({
@@ -174,7 +174,7 @@ function transpileES6(indexFile, dest, format, moduleName, externalMappings) {
       // babel(),
       buble(),
       // filesize(),
-      uglify()
+      // uglify()
     ]
   }).then(function(bundle) {
     var dirname = path.dirname(dest),

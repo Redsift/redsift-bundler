@@ -16,7 +16,7 @@ function printBundleSummary(bundleConfig) {
         var postFix = null,
             format = bundle.formats[idx1];
 
-        if (format === 'es6') {
+        if (format === 'es') {
           postFix = '.es2015';
         } else if (format === 'umd') {
           postFix = '.umd-es2015';

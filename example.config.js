@@ -7,7 +7,7 @@ var paths = {
 }
 
 var defaultConfig = {
-    formats: ['es6', 'umd'],
+    formats: ['es', 'umd'],
     outputFolder: paths.dest,
     moduleNameJS: 'Redsift',
     mapsDest: '.',
