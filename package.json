@@ -1,13 +1,13 @@
 {
   "name": "@redsift/redsift-bundler",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Package up your ES2015/Stylus/CSS application for distribution.",
   "bin": {
     "redsift-bundler": "./bin/bundle.js",
     "redsift-serve": "./bin/serve.js"
   },
   "scripts": {
-    "pretest": "npm outdated",
+    "prepublish": "npm outdated",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "repository": {
