@@ -1,15 +1,14 @@
 {
   "name": "@redsift/redsift-bundler",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "Package up your ES2015/Stylus/CSS application for distribution.",
   "bin": {
     "redsift-bundler": "./bin/bundle.js",
-    "redsift-serve": "./bin/serve.js",
-    "redsift-svg-sprite": "./bin/svg-sprite.js",
-    "redsift-image-sprite": "./bin/image-sprite.js"
+    "redsift-serve": "./bin/serve.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pretest": "npm outdated",
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "repository": {
     "type": "git",
@@ -52,17 +51,16 @@
     "jshint": "*",
     "lodash": "^4.12.0",
     "merge-stream": "^1.0.0",
-    "normalize.css": "^3.0.3",
-    "rollup": "^0.26.2",
+    "normalize.css": "^4.2.0",
+    "rollup": "^0.34.1",
     "rollup-plugin-babel": "^2.4.0",
-    "rollup-plugin-buble": "^0.7.0",
-    "rollup-plugin-commonjs": "^2.2.1",
-    "rollup-plugin-filesize": "^0.3.4",
+    "rollup-plugin-buble": "^0.12.1",
+    "rollup-plugin-commonjs": "^3.3.0",
     "rollup-plugin-includepaths": "^0.1.5",
     "rollup-plugin-json": "^2.0.0",
     "rollup-plugin-node-resolve": "^1.5.0",
-    "rollup-plugin-string": "^1.0.1",
-    "rollup-plugin-uglify": "^0.3.1",
+    "rollup-plugin-string": "^2.0.2",
+    "rollup-plugin-uglify": "^1.0.1",
     "shelljs": "^0.7.0",
     "yargs": "^4.7.1"
   }
