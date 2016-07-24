@@ -10,17 +10,17 @@ function loadTask(gulp, taskFileName, bundleConfig) {
 function printBundleSummary(bundleConfig) {
   for (var idx = 0; idx < bundleConfig.length; idx++) {
     var bundle = bundleConfig[idx];
-
     if (bundle.mainJS) {
       for (var idx1 = 0; idx1 < bundle.formats.length; idx1++) {
         var postFix = null,
-            format = bundle.formats[idx1];
-
+          format = bundle.formats[idx1];
         if (format === 'es') {
           postFix = '.es2015';
-        } else if (format === 'umd') {
+        }
+        else if (format === 'umd') {
           postFix = '.umd-es2015';
-        } else if (format === 'cjs') {
+        }
+        else if (format === 'cjs') {
           postFix = '.cjs-es2015';
         }
         console.log('   [JS] ' + bundle.mainJS.indexFile + ' -> ' + path.join(bundle.outputFolder, 'js', bundle.mainJS.name + postFix + '.js'));
@@ -31,8 +31,8 @@ function printBundleSummary(bundleConfig) {
       console.log('\n');
       for (var idx0 = 0; idx0 < bundle.styles.length; idx0++) {
         var style = bundle.styles[idx0];
-        console.log('  [CSS] ' +  style.indexFile + ' -> ' + path.join(bundle.outputFolder, 'css', style.name + '.css'));
-        console.log('  [CSS] ' +  style.indexFile + ' -> ' + path.join(bundle.outputFolder, 'css', style.name + '.min.css'));
+        console.log('  [CSS] ' + style.indexFile + ' -> ' + path.join(bundle.outputFolder, 'css', style.name + '.css'));
+        console.log('  [CSS] ' + style.indexFile + ' -> ' + path.join(bundle.outputFolder, 'css', style.name + '.min.css'));
       }
       console.log('\n');
     }

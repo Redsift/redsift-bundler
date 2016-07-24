@@ -13,52 +13,49 @@ var stylus = require('gulp-stylus'),
 module.exports = function setupTask(gulp, bundles, bundlerOpts) {
   function task() {
     var gulpStream = mergeStream(); // creates a new stream
-
     for (var idx = 0; idx < bundles.length; idx++) {
       var config = bundles[idx];
 
       if (!config.styles) {
         continue;
       }
-
       var configStyles = [];
       if (!_.isArray(config.styles)) {
         configStyles.push(config.styles);
-      } else {
+      }
+      else {
         configStyles = config.styles;
       }
-
       for (var i = 0; i < configStyles.length; i++) {
         var style = configStyles[i],
           dest = null,
           src = null,
           mapsDest = null,
           outputSubFolder = (configStyles.length > 1) ? style.name : '';
-
-          // console.log('outputSubFolder: ' + outputSubFolder);
-
         if (!path.isAbsolute(config.outputFolder)) {
           dest = path.join(bundlerOpts.workingDir, config.outputFolder, 'css', outputSubFolder);
-        } else {
+        }
+        else {
           dest = path.join(config.outputFolder, 'css', outputSubFolder);
         }
 
         if (!path.isAbsolute(style.indexFile)) {
           src = path.join(bundlerOpts.workingDir, style.indexFile);
-        } else {
+        }
+        else {
           src = style.indexFile;
         }
 
         if (!path.isAbsolute(config.mapsDest)) {
           mapsDest = path.join(bundlerOpts.workingDir, config.mapsDest);
-        } else {
+        }
+        else {
           mapsDest = config.mapsDest;
         }
-
         // console.log('[bundle-css] index file:  ' + src);
         // console.log('[bundle-css] dest folder: ' + dest);
         // console.log('[bundle-css] map folder:  ' + mapsDest);
-
+        console.log('[bundle-css]: bundling: ', src);
         var cssStream = bundleStyles(gulp, {
           name: style.name || 'style',
           dest: dest,
@@ -69,7 +66,6 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
         gulpStream.add(cssStream);
       }
     }
-
     return gulpStream.isEmpty() ? null : gulpStream;
   }
 
@@ -80,16 +76,15 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
 }
 
 function bundleStyles(gulp, opts) {
-  var srcFiles = [ opts.indexFile ];
+  var srcFiles = [opts.indexFile];
   var normalizeCSSFolder = './node_modules/normalize.css';
-
   if (opts.useNormalizeCSS) {
     try {
-        var stats = fs.lstatSync(normalizeCSSFolder);
-        console.log('[bundle-css] Checking for normalize.css...');
-        if (stats.isDirectory()) {
-          console.log('[bundle-css]   found');
-        }
+      var stats = fs.lstatSync(normalizeCSSFolder);
+      console.log('[bundle-css] Checking for normalize.css...');
+      if (stats.isDirectory()) {
+        console.log('[bundle-css] found');
+      }
     }
     catch (e) {
       console.error('[bundle-css] ERROR: "useNormalizeCSS" is set to true, but %s does not exist. Install it with "npm install normalize.css"!');
@@ -97,7 +92,6 @@ function bundleStyles(gulp, opts) {
     }
     srcFiles.unshift(path.join(normalizeCSSFolder, '**.css'));
   }
-
   return gulp.src(srcFiles)
     .pipe(plumber())
     .pipe(sourcemaps.init())
