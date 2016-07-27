@@ -30,13 +30,12 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
         var style = configStyles[i],
           dest = null,
           src = null,
-          mapsDest = null,
-          outputSubFolder = (configStyles.length > 1) ? style.name : '';
+          mapsDest = null;
         if (!path.isAbsolute(config.outputFolder)) {
-          dest = path.join(bundlerOpts.workingDir, config.outputFolder, 'css', outputSubFolder);
+          dest = path.join(bundlerOpts.workingDir, config.outputFolder, 'css');
         }
         else {
-          dest = path.join(config.outputFolder, 'css', outputSubFolder);
+          dest = path.join(config.outputFolder, 'css');
         }
 
         if (!path.isAbsolute(style.indexFile)) {
