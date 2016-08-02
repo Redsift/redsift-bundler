@@ -11,8 +11,7 @@ var shell = require('shelljs'),
 console.log('Working dir: ' + process.cwd());
 
 var gulpfile = path.join(__dirname, '..', 'gulpfile.js'),
-    gulp = path.join(__dirname, '..', 'node_modules', '.bin', 'gulp'),
-    exec = 'node ' + gulp + ' --gulpfile ' + gulpfile + ' -c ' + argv.c + ' -w ' + process.cwd() + ' build';
+    exec = 'gulp --gulpfile ' + gulpfile + ' -c ' + argv.c + ' -w ' + process.cwd() + ' build';
 
 console.log('exec: ' + exec);
 
