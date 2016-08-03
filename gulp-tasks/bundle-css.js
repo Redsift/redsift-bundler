@@ -60,7 +60,8 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
           dest: dest,
           indexFile: src,
           mapsDest: config.mapsDest,
-          useNormalizeCSS: config.useNormalizeCSS
+          useNormalizeCSS: config.useNormalizeCSS,
+          workingDir: bundlerOpts.workingDir
         });
         gulpStream.add(cssStream);
       }
@@ -76,17 +77,18 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
 
 function bundleStyles(gulp, opts) {
   var srcFiles = [opts.indexFile];
-  var normalizeCSSFolder = './node_modules/normalize.css';
+  var normalizeCSSFolder = path.join(opts.workingDir, './node_modules/normalize.css');
+
   if (opts.useNormalizeCSS) {
     try {
       var stats = fs.lstatSync(normalizeCSSFolder);
-      console.log('[bundle-css] Checking for normalize.css...');
+      console.log('[bundle-css] Checking for normalize.css at: ' + normalizeCSSFolder);
       if (stats.isDirectory()) {
         console.log('[bundle-css] found');
       }
     }
     catch (e) {
-      console.error('[bundle-css] ERROR: "useNormalizeCSS" is set to true, but %s does not exist. Install it with "npm install normalize.css"!');
+      console.error('[bundle-css] ERROR: "useNormalizeCSS" is set to true, but normalize.css is not installed. Install it with "npm install normalize.css"!');
       console.log('[bundle-css] continuing WITHOUT bundling normalize.css');
     }
     srcFiles.unshift(path.join(normalizeCSSFolder, '**.css'));
