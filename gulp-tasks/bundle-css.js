@@ -84,7 +84,7 @@ function bundleStyles(gulp, opts) {
   var srcFiles = [opts.indexFile];
   var normalizeCSSFolder = path.join(opts.workingDir, './node_modules/normalize.css');
 
-  console.log('[PostCSS] asset roots: ', JSON.stringify(opts.assetPaths));
+  console.log('[PostCSS] searching for assets in: ', JSON.stringify(opts.assetPaths));
 
   if (opts.useNormalizeCSS) {
     try {
@@ -104,7 +104,7 @@ function bundleStyles(gulp, opts) {
   var processors = [
     assets({ loadPaths: opts.assetPaths })
   ];
-  
+
   return gulp.src(srcFiles)
     .pipe(plumber())
     .pipe(sourcemaps.init())
