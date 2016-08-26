@@ -63,5 +63,9 @@
     "rollup-plugin-uglify": "^1.0.1",
     "shelljs": "^0.7.0",
     "yargs": "^4.7.1"
+  },
+  "devDependencies": {
+    "gulp-postcss": "^6.1.1",
+    "postcss-assets": "^4.1.0"
   }
 }

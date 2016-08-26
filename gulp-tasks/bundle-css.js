@@ -1,4 +1,5 @@
 var stylus = require('gulp-stylus'),
+  postcss = require('gulp-postcss');
   concat = require('gulp-concat'),
   minifyCss = require('gulp-cleancss'),
   sourcemaps = require('gulp-sourcemaps'),
@@ -9,6 +10,9 @@ var stylus = require('gulp-stylus'),
   fs = require('fs'),
   mergeStream = require('merge-stream'),
   _ = require('lodash');
+
+// PostCSS plugins:
+var assets = require('postcss-assets');
 
 module.exports = function setupTask(gulp, bundles, bundlerOpts) {
   function task() {
@@ -61,7 +65,8 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
           indexFile: src,
           mapsDest: config.mapsDest,
           useNormalizeCSS: config.useNormalizeCSS,
-          workingDir: bundlerOpts.workingDir
+          workingDir: bundlerOpts.workingDir,
+          assetPaths: config.assetPaths || []
         });
         gulpStream.add(cssStream);
       }
@@ -79,6 +84,8 @@ function bundleStyles(gulp, opts) {
   var srcFiles = [opts.indexFile];
   var normalizeCSSFolder = path.join(opts.workingDir, './node_modules/normalize.css');
 
+  console.log('[PostCSS] asset roots: ', JSON.stringify(opts.assetPaths));
+
   if (opts.useNormalizeCSS) {
     try {
       var stats = fs.lstatSync(normalizeCSSFolder);
@@ -93,6 +100,11 @@ function bundleStyles(gulp, opts) {
     }
     srcFiles.unshift(path.join(normalizeCSSFolder, '**.css'));
   }
+
+  var processors = [
+    assets({ loadPaths: opts.assetPaths })
+  ];
+  
   return gulp.src(srcFiles)
     .pipe(plumber())
     .pipe(sourcemaps.init())
@@ -100,6 +112,7 @@ function bundleStyles(gulp, opts) {
       'include css': true
     }))
     .pipe(concat(opts.name + '.css'))
+    .pipe(postcss(processors))
     .pipe(autoprefixer({
       browsers: ['last 2 versions'],
       cascade: false
@@ -116,4 +129,13 @@ function bundleStyles(gulp, opts) {
     }))
     .pipe(sourcemaps.write(opts.mapsDest))
     .pipe(gulp.dest(opts.dest));
+}
+
+function applyPostCSS(gulp, stream, opts) {
+  var processors = [
+    assets({ loadPaths: opts.assetPaths })
+  ];
+
+  return stream
+      .pipe(postcss(processors))
 }
