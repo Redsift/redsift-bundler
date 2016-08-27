@@ -128,12 +128,13 @@ function transpileES6(indexFile, dest, format, moduleName, externalMappings) {
         main: true,
         skip: nodeResolveSkips
       }),
-      commonjs(),
+
       // CAUTION: make sure to initialize all file transforming additional plugins
       // BEFORE babel() or buble(). Otherwise the transpiler will consume the
       //imported files first.
       // babel(),
       buble(),
+      commonjs(),
       // filesize()
     ]
   }).then(function (bundle) {
@@ -167,12 +168,12 @@ function transpileES6(indexFile, dest, format, moduleName, externalMappings) {
         main: true,
         skip: nodeResolveSkips
       }),
-      commonjs(),
       // CAUTION: make sure to initialize all file transforming additional plugins
       // BEFORE babel() or buble(). Otherwise the transpiler will consume the
       //imported files first.
       // babel(),
       buble(),
+      commonjs(),
       // filesize(),
       // uglify()
     ]
