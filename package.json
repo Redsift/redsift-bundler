@@ -1,6 +1,6 @@
 {
   "name": "@redsift/redsift-bundler",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "description": "Package up your ES2015/Stylus/CSS application for distribution.",
   "bin": {
     "redsift-bundler": "./bin/bundle.js",
@@ -62,9 +62,7 @@
     "rollup-plugin-string": "^2.0.2",
     "rollup-plugin-uglify": "^1.0.1",
     "shelljs": "^0.7.0",
-    "yargs": "^4.7.1"
-  },
-  "devDependencies": {
+    "yargs": "^4.7.1",
     "gulp-postcss": "^6.1.1",
     "postcss-assets": "^4.1.0"
   }
