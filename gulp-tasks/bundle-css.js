@@ -109,6 +109,7 @@ function bundleStyles(gulp, opts) {
     .pipe(plumber())
     .pipe(sourcemaps.init())
     .pipe(stylus({
+      'include': path.join(process.cwd(), "./node_modules/"),
       'include css': true
     }))
     .pipe(concat(opts.name + '.css'))
