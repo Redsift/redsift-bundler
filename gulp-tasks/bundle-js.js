@@ -11,13 +11,6 @@ var rollup = require('rollup'),
   path = require('path'),
   _ = require('lodash');
 
-// var closureCompiler = require('gulp-closure-compiler');
-// var includePathOptions = {
-//     paths: ['./components'],
-//     external: [],
-//     extensions: ['.js']
-// };
-
 module.exports = function setupTask(gulp, bundles, bundlerOpts) {
   function task() {
     var tps = [];
@@ -138,21 +131,15 @@ function transpileES6(indexFile, dest, format, moduleName, externalMappings) {
       // filesize()
     ]
   }).then(function (bundle) {
-    console.log('[bundle-js]: transpiling: ', dest);
+    // console.log('[bundle-js]: transpiling: ', dest);
     return bundle.write({
       format: format,
       moduleName: moduleName,
       globals: externalMappings,
-      dest: dest
+      dest: dest,
+      useStrict: false // NOTE: necessary for Safari when using web components. See https://github.com/ibm-js/delite/issues/259
     });
   }));
-
-  // FIXXME: use closure compiler to minify JS!
-  // .pipe(closureCompiler({
-  //     compilerPath: 'bower_components/closure-compiler/compiler.jar',
-  //     fileName: 'redsift-global.es5.min.js',
-  //     continueWithWarnings: true
-  // }))
 
   tps.push(rollup.rollup({
     entry: indexFile,
