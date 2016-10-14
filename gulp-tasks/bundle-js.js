@@ -73,7 +73,7 @@ function bundleES6(indexFile, dest, externalMappings) {
     plugins: [
       json(),
       string({
-        include: ['**/*.tmpl']
+        include: '**/*.tmpl'
       }),
       // includePaths(includePathOptions),
       nodeResolve({
@@ -113,7 +113,7 @@ function transpileES6(indexFile, dest, format, moduleName, externalMappings) {
     plugins: [
       json(),
       string({
-        include: ['**/*.tmpl']
+        include: '**/*.tmpl'
       }),
       // includePaths(includePathOptions),
       nodeResolve({
