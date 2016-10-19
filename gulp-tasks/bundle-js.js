@@ -73,7 +73,7 @@ function bundleES6(indexFile, dest, externalMappings) {
     plugins: [
       json(),
       string({
-        include: '**/*.tmpl'
+        extensions: ['.tmpl']
       }),
       // includePaths(includePathOptions),
       nodeResolve({
@@ -113,7 +113,7 @@ function transpileES6(indexFile, dest, format, moduleName, externalMappings) {
     plugins: [
       json(),
       string({
-        include: '**/*.tmpl'
+        extensions: ['.tmpl']
       }),
       // includePaths(includePathOptions),
       nodeResolve({
@@ -147,7 +147,7 @@ function transpileES6(indexFile, dest, format, moduleName, externalMappings) {
     plugins: [
       json(),
       string({
-        include: ['**/*.tmpl']
+        extensions: ['.tmpl']
       }),
       // includePaths(includePathOptions),
       nodeResolve({
@@ -162,7 +162,7 @@ function transpileES6(indexFile, dest, format, moduleName, externalMappings) {
       buble(),
       commonjs(),
       // filesize(),
-      // uglify()
+      uglify()
     ]
   }).then(function (bundle) {
     var dirname = path.dirname(dest),
@@ -173,7 +173,8 @@ function transpileES6(indexFile, dest, format, moduleName, externalMappings) {
       format: format,
       moduleName: moduleName,
       globals: externalMappings,
-      dest: destMin
+      dest: destMin,
+      useStrict: false // NOTE: necessary for Safari when using web components. See https://github.com/ibm-js/delite/issues/259
     });
   }));
 
