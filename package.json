@@ -7,8 +7,7 @@
     "redsift-serve": "./bin/serve.js"
   },
   "scripts": {
-    "pretest": "npm outdated",
-    "test": "echo \"no test specified\" && exit 0"
+    "test": "./node_modules/.bin/tape 'test/**/*.test.js'"
   },
   "repository": {
     "type": "git",
@@ -65,5 +64,13 @@
     "yargs": "^4.7.1",
     "gulp-postcss": "^6.1.1",
     "postcss-assets": "^4.1.0"
+  },
+  "devDependencies": {
+    "@redsift/tape-reel": "^0.1.0",
+    "babel-plugin-transform-class-properties": "^6.19.0",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-preset-react": "^6.16.0",
+    "babel-preset-stage-0": "^6.16.0",
+    "rollup-plugin-replace": "^1.1.1"
   }
 }
