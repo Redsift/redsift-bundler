@@ -24,7 +24,7 @@ const config = {
     outputRefMinFile: path.join('test', 'config', 'react-jsx', 'output-ref.min.js'),
     outputRefFile: path.join('test', 'config', 'react-jsx', 'output-ref.js'),
   },
-  tmpFolder: path.join('tmp')
+  tmpFolder: path.join('test/tmp')
 }
 
 test('setup', function(t) {
@@ -100,7 +100,7 @@ test('builds a un-minified UMD bundle from a React/JSX input file', function(t) 
   t.end();
 });
 
-// test('teardown', function(t) {
-//   execSync(`rm -rf ${config.tmpFolder}`);
-//   t.end();
-// });
+test('teardown', function(t) {
+  execSync(`rm -rf ${config.tmpFolder}`);
+  t.end();
+});
