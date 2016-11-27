@@ -2,7 +2,7 @@ import path from 'path';
 import config from '../prod';
 
 const entryFile = path.join('test', 'config', 'react-jsx', 'input.js');
-const dest = path.join('tmp', 'react-jsx', 'bundle-output.js');
+const dest = path.join('test', 'tmp', 'react-jsx', 'bundle-output.js');
 
 config.entry = entryFile;
 config.dest = dest;
