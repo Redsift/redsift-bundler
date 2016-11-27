@@ -15,7 +15,7 @@ var bundleConfigPath = null,
 if (argv.w && argv.c) {
   bundleConfigPath = path.join(argv.w, argv.c);
   console.log('[redsift-bundler] Loading bundle config from: ' + bundleConfigPath);
-
+console.log('cwd:', process.cwd());
   var bundleConfig = require(bundleConfigPath);
   opts['workingDir'] = argv.w;
 }

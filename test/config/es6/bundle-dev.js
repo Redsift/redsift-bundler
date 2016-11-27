@@ -1,5 +1,5 @@
 import path from 'path';
-import config from '../dev';
+import config from '../../../config/dev';
 
 const entryFile = path.join('test', 'config', 'es6', 'input.js');
 const dest = path.join('test', 'tmp', 'es6', 'bundle-dev-output.js');

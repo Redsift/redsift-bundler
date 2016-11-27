@@ -13,6 +13,7 @@ var rollup = require('rollup'),
 
 module.exports = function setupTask(gulp, bundles, bundlerOpts) {
   function task() {
+    console.log('asdfasdf');
     var tps = [];
     for (var idx = 0; idx < bundles.length; idx++) {
       var config = bundles[idx];
