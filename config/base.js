@@ -26,10 +26,10 @@ module.exports = {
         'node_modules/react-dom/**'
       ]
     }),
-    eslint({ // NOTE: include this AFTER cjs(). Results in 'React does not export default' error otherwise!
-      configFile: '.eslintrc',
-      exclude: 'node_modules/**',
-    }),
+    // eslint({ // NOTE: include this AFTER cjs(). Results in 'React does not export default' error otherwise!
+    //   configFile: '.eslintrc',
+    //   exclude: 'node_modules/**',
+    // }),
     globals(),
     replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
     resolve({

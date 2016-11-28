@@ -100,7 +100,7 @@ test('builds a un-minified UMD bundle from a React/JSX input file', function(t) 
   t.end();
 });
 
-test('teardown', function(t) {
-  execSync(`rm -rf ${config.tmpFolder}`);
-  t.end();
-});
+// test('teardown', function(t) {
+//   execSync(`rm -rf ${config.tmpFolder}`);
+//   t.end();
+// });

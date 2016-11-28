@@ -11,9 +11,10 @@ var rollup = require('rollup'),
   path = require('path'),
   _ = require('lodash');
 
+const rollupConfig = require('../config/prod');
+
 module.exports = function setupTask(gulp, bundles, bundlerOpts) {
   function task() {
-    console.log('asdfasdf');
     var tps = [];
     for (var idx = 0; idx < bundles.length; idx++) {
       var config = bundles[idx];
@@ -108,30 +109,34 @@ function transpileES6(indexFile, dest, format, moduleName, externalMappings) {
 
   var tps = [];
 
-  tps.push(rollup.rollup({
-    entry: indexFile,
-    external: [],
-    plugins: [
-      json(),
-      string({
-        extensions: ['.tmpl']
-      }),
-      // includePaths(includePathOptions),
-      nodeResolve({
-        jsnext: true,
-        main: true,
-        skip: nodeResolveSkips
-      }),
+  rollupConfig.entry = indexFile;
 
-      // CAUTION: make sure to initialize all file transforming additional plugins
-      // BEFORE babel() or buble(). Otherwise the transpiler will consume the
-      //imported files first.
-      // babel(),
-      buble(),
-      commonjs(),
-      // filesize()
-    ]
-  }).then(function (bundle) {
+  tps.push(rollup.rollup(rollupConfig
+  //   {
+  //   entry: indexFile,
+  //   external: [],
+  //   plugins: [
+  //     json(),
+  //     string({
+  //       extensions: ['.tmpl']
+  //     }),
+  //     // includePaths(includePathOptions),
+  //     nodeResolve({
+  //       jsnext: true,
+  //       main: true,
+  //       skip: nodeResolveSkips
+  //     }),
+  //
+  //     // CAUTION: make sure to initialize all file transforming additional plugins
+  //     // BEFORE babel() or buble(). Otherwise the transpiler will consume the
+  //     //imported files first.
+  //     // babel(),
+  //     buble(),
+  //     commonjs(),
+  //     // filesize()
+  //   ]
+  // }
+).then(function (bundle) {
     // console.log('[bundle-js]: transpiling: ', dest);
     return bundle.write({
       format: format,
@@ -142,30 +147,31 @@ function transpileES6(indexFile, dest, format, moduleName, externalMappings) {
     });
   }));
 
-  tps.push(rollup.rollup({
-    entry: indexFile,
-    external: [],
-    plugins: [
-      json(),
-      string({
-        extensions: ['.tmpl']
-      }),
-      // includePaths(includePathOptions),
-      nodeResolve({
-        jsnext: true,
-        main: true,
-        skip: nodeResolveSkips
-      }),
-      // CAUTION: make sure to initialize all file transforming additional plugins
-      // BEFORE babel() or buble(). Otherwise the transpiler will consume the
-      //imported files first.
-      // babel(),
-      buble(),
-      commonjs(),
-      // filesize(),
-      uglify()
-    ]
-  }).then(function (bundle) {
+  tps.push(rollup.rollup(rollupConfig
+  //   entry: indexFile,
+  //   external: [],
+  //   plugins: [
+  //     json(),
+  //     string({
+  //       extensions: ['.tmpl']
+  //     }),
+  //     // includePaths(includePathOptions),
+  //     nodeResolve({
+  //       jsnext: true,
+  //       main: true,
+  //       skip: nodeResolveSkips
+  //     }),
+  //     // CAUTION: make sure to initialize all file transforming additional plugins
+  //     // BEFORE babel() or buble(). Otherwise the transpiler will consume the
+  //     //imported files first.
+  //     // babel(),
+  //     buble(),
+  //     commonjs(),
+  //     // filesize(),
+  //     uglify()
+  //   ]
+  // }
+  ).then(function (bundle) {
     var dirname = path.dirname(dest),
       basename = path.basename(dest, '.js'),
       destMin = path.join(dirname, basename) + '.min.js';
