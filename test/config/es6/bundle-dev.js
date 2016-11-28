@@ -1,5 +1,5 @@
-import path from 'path';
-import config from '../../../config/dev';
+const path = require('path');
+const config = require('../../../config/dev');
 
 const entryFile = path.join('test', 'config', 'es6', 'input.js');
 const dest = path.join('test', 'tmp', 'es6', 'bundle-dev-output.js');
@@ -7,4 +7,4 @@ const dest = path.join('test', 'tmp', 'es6', 'bundle-dev-output.js');
 config.entry = entryFile;
 config.dest = dest;
 
-export default config;
+module.exports = config;

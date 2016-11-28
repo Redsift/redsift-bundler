@@ -1,7 +1,7 @@
-import replace from 'rollup-plugin-replace';
-import config from './base';
+const replace = require('rollup-plugin-replace');
+const config = require('./base');
 
 // Inject the production settings:
 config.moduleName = 'TestBundle';
 
-export default config;
+module.exports = config;

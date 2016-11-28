@@ -1,13 +1,13 @@
-import babel from 'rollup-plugin-babel';
-import cjs from 'rollup-plugin-commonjs';
-import replace from 'rollup-plugin-replace';
-import globals from 'rollup-plugin-node-globals';
-import resolve from 'rollup-plugin-node-resolve';
-import json from 'rollup-plugin-json';
-import eslint from 'rollup-plugin-eslint';
-import filesize from 'rollup-plugin-filesize';
+const babel = require('rollup-plugin-babel');
+const cjs = require('rollup-plugin-commonjs');
+const replace = require('rollup-plugin-replace');
+const globals = require('rollup-plugin-node-globals');
+const resolve = require('rollup-plugin-node-resolve');
+const json = require('rollup-plugin-json');
+const eslint = require('rollup-plugin-eslint');
+const filesize = require('rollup-plugin-filesize');
 
-export default {
+module.exports = {
   format: 'umd',
   plugins: [
     json(),
@@ -39,4 +39,4 @@ export default {
     filesize()
   ],
   sourceMap: true
-}
+};
