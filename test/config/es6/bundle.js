@@ -1,5 +1,5 @@
 const path = require('path');
-const config = require('../../../config/prod');
+const config = require('../../../config/rollup/prod');
 
 const entryFile = path.join('test', 'config', 'es6', 'input.js');
 const dest = path.join('test', 'tmp', 'es6', 'bundle-output.js');
