@@ -8,7 +8,8 @@ export class TestClass {
   }
 }
 
-export class TestClass2 {
-  static myProp1 = 'static prop';
-  myProp2 = 'prop';
-}
+// 'babel-plugin-transform-class-properties' is not enabled currently
+// export class TestClass2 {
+//   static myProp1 = 'static prop';
+//   myProp2 = 'prop';
+// }

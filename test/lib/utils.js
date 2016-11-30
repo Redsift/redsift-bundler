@@ -10,6 +10,14 @@ function doesFileExist(filepath) {
   return flag;
 }
 
+function compareFiles(fileA, fileB) {
+  const fileAContent = fs.readFileSync(fileA).toString();
+  const fileBContent = fs.readFileSync(fileB).toString();
+
+  return fileAContent === fileBContent;
+}
+
 module.exports = {
-  doesFileExist
+  doesFileExist,
+  compareFiles
 }

@@ -14,6 +14,9 @@ module.exports = {
   //   library: 'lib',
   //   libraryTarget: 'umd'
   // },
+  resolve: {
+   root: [path.resolve('/Users/martin/projects/sched-sift')]
+  },
   module: {
     loaders: [
       {
