@@ -59,6 +59,7 @@
     "normalize.css": "^4.2.0",
     "postcss-assets": "^4.1.0",
     "rollup": "^0.36.4",
+    "rollup-plugin-babel": "^2.6.1",
     "rollup-plugin-commonjs": "3.0.1",
     "rollup-plugin-eslint": "^3.0.0",
     "rollup-plugin-filesize": "^1.0.1",
