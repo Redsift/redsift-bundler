@@ -1,6 +1,5 @@
 const rollup = require('rollup'),
   json = require('rollup-plugin-json'),
-  string = require('rollup-plugin-string'),
   uglify = require('rollup-plugin-uglify'),
   nodeResolve = require('rollup-plugin-node-resolve'),
   includePaths = require('rollup-plugin-includepaths'),
@@ -97,9 +96,6 @@ function bundleES6(indexFile, dest, externalMappings) {
     external: [],
     plugins: [
       json(),
-      string({
-        extensions: ['.tmpl']
-      }),
       // includePaths(includePathOptions),
       nodeResolve({
         jsnext: true,
