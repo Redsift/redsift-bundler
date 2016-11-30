@@ -1,4 +1,4 @@
-var rollup = require('rollup'),
+const rollup = require('rollup'),
   json = require('rollup-plugin-json'),
   buble = require('rollup-plugin-buble'),
   //  babel = require('rollup-plugin-babel'),
@@ -11,8 +11,27 @@ var rollup = require('rollup'),
   path = require('path'),
   _ = require('lodash');
 
-const rollupConfig = require('../config/prod');
-const rollupDevConfig = require('../config/dev');
+const rollupConfig = require('../config/rollup/prod');
+const rollupDevConfig = require('../config/rollup/dev');
+
+const webpack = require('webpack-stream');
+const webpackConfig = require('../config/webpack/webpack.config.js');
+
+function _createWebpackBundle(gulp, config) {
+  const entryFile = config.mainJS.indexFile;
+  const destFile = path.join(config.mainJS.name + '.umd.min.js');
+  const dest = path.join(config.outputFolder, 'js');
+
+  if (!webpackConfig.output) {
+    webpackConfig.output = {};
+  }
+
+  webpackConfig.output = Object.assign({}, webpackConfig.output, { filename: destFile });
+
+  return gulp.src(entryFile)
+    .pipe(webpack(webpackConfig))
+    .pipe(gulp.dest(dest));
+}
 
 module.exports = function setupTask(gulp, bundles, bundlerOpts) {
   function task() {
@@ -40,13 +59,19 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
           tps.push(bundleES6(src, dest, config.externalMappings));
         }
         else {
-          if (!path.isAbsolute(config.outputFolder)) {
-            dest = path.join(bundlerOpts.workingDir, config.outputFolder, 'js', config.name || '', config.mainJS.name + '.' + format + '-es2015.js');
+          const useWebpack = true;
+          if (useWebpack) {
+            const webpackTask = _createWebpackBundle(gulp, config);
+            tps.push(webpackTask);
+          } else {
+            if (!path.isAbsolute(config.outputFolder)) {
+              dest = path.join(bundlerOpts.workingDir, config.outputFolder, 'js', config.name || '', config.mainJS.name + '.' + format + '-es2015.js');
+            }
+            else {
+              dest = path.join(config.outputFolder, 'js', config.name || '', config.mainJS.name + '.' + format + '-es2015.js');
+            }
+            tps.push(transpileWithRollup(src, dest, format, moduleName, config.externalMappings));
           }
-          else {
-            dest = path.join(config.outputFolder, 'js', config.name || '', config.mainJS.name + '.' + format + '-es2015.js');
-          }
-          tps.push(transpileES6(src, dest, format, moduleName, config.externalMappings));
         }
       }
     }
@@ -96,8 +121,8 @@ function bundleES6(indexFile, dest, externalMappings) {
   });
 }
 
-function transpileES6(indexFile, dest, format, moduleName, externalMappings) {
-  // console.log('[transpileES6] src: %s | dest: %s', indexFile, dest);
+function transpileWithRollup(indexFile, dest, format, moduleName, externalMappings) {
+  // console.log('[transpileWithRollup] src: %s | dest: %s', indexFile, dest);
 
   // All external mappings have to be skipped by the nodeResolve plugin. Otherwise
   // the plugin would search for them in node_modules and complain if they are not found.
@@ -105,8 +130,8 @@ function transpileES6(indexFile, dest, format, moduleName, externalMappings) {
     return key;
   });
 
-  // console.log('[bundle-js::transpileES6] index file:  ' + indexFile);
-  // console.log('[bundle-js::transpileES6] dest folder: ' + dest);
+  // console.log('[bundle-js::transpileWithRollup] index file:  ' + indexFile);
+  // console.log('[bundle-js::transpileWithRollup] dest folder: ' + dest);
 
   var tps = [];
 
