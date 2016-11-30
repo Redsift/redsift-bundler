@@ -5,7 +5,7 @@ var webpack = require('webpack'),
 
 module.exports = {
   // target: 'web',
-  // cache: true,
+  cache: true,
   // entry: {
   //   profile: './components/index',
   //   common: ['react', 'react-dom']
@@ -35,7 +35,7 @@ module.exports = {
   },
   plugins: [
     new webpack.NoErrorsPlugin(),
-    // new webpack.optimize.UglifyJsPlugin()
+    new webpack.optimize.UglifyJsPlugin()
   ],
   devtool: 'source-map',
   node: {
