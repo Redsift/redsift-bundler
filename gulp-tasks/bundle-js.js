@@ -12,6 +12,7 @@ var rollup = require('rollup'),
   _ = require('lodash');
 
 const rollupConfig = require('../config/prod');
+const rollupDevConfig = require('../config/dev');
 
 module.exports = function setupTask(gulp, bundles, bundlerOpts) {
   function task() {
@@ -109,9 +110,11 @@ function transpileES6(indexFile, dest, format, moduleName, externalMappings) {
 
   var tps = [];
 
-  rollupConfig.entry = indexFile;
+  rollupDevConfig.entry = indexFile;
 
-  tps.push(rollup.rollup(rollupConfig
+  console.log('rollupDevConfig: ', rollupDevConfig);
+
+  tps.push(rollup.rollup(rollupDevConfig
   //   {
   //   entry: indexFile,
   //   external: [],
@@ -146,6 +149,8 @@ function transpileES6(indexFile, dest, format, moduleName, externalMappings) {
       useStrict: false // NOTE: necessary for Safari when using web components. See https://github.com/ibm-js/delite/issues/259
     });
   }));
+
+  console.log('rollupConfig: ', rollupConfig);
 
   tps.push(rollup.rollup(rollupConfig
   //   entry: indexFile,

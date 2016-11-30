@@ -24,15 +24,21 @@ module.exports = {
         'node_modules/object-assign/**',
         'node_modules/react/**',
         'node_modules/react-dom/**'
-      ]
+      ],
+      ignoreGlobals: false,
+      sourceMap: false,
+      // see https://github.com/rollup/rollup-plugin-commonjs for namedExports issue
+      // namedExports: { './module.js': ['foo', 'bar' ] }  // Default: undefined
     }),
-    // eslint({ // NOTE: include this AFTER cjs(). Results in 'React does not export default' error otherwise!
-    //   configFile: '.eslintrc',
-    //   exclude: 'node_modules/**',
-    // }),
+    eslint({ // NOTE: include this AFTER cjs(). Results in 'React does not export default' error otherwise!
+      configFile: '.eslintrc',
+      exclude: 'node_modules/**',
+    }),
     globals(),
     replace({ 'process.env.NODE_ENV': JSON.stringify('development') }),
     resolve({
+      modules: true,
+      jsnext: true,
       browser: true,
       main: true
     }),

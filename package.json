@@ -1,6 +1,6 @@
 {
   "name": "@redsift/redsift-bundler",
-  "version": "0.6.5-pre",
+  "version": "0.6.5-alpha",
   "description": "Package up your ES2015/Stylus/CSS application for distribution.",
   "bin": {
     "redsift-bundler": "./bin/bundle.js",
@@ -58,7 +58,7 @@
     "yargs": "^4.7.1",
     "rollup": "^0.36.4",
     "rollup-plugin-babel": "^2.6.1",
-    "rollup-plugin-commonjs": "^5.0.5",
+    "rollup-plugin-commonjs": "3.0.1",
     "rollup-plugin-eslint": "^3.0.0",
     "rollup-plugin-filesize": "^1.0.1",
     "rollup-plugin-json": "^2.0.2",
@@ -68,6 +68,7 @@
     "rollup-plugin-uglify": "^1.0.1"
   },
   "devDependencies": {
+    "@redsift/sift-sdk-web": "^0.7.0",
     "@redsift/tape-reel": "^0.1.0",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
