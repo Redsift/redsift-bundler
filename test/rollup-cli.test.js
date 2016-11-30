@@ -7,22 +7,22 @@ const utils = require('./lib/utils');
 const rollupBin = './node_modules/.bin/rollup';
 const config = {
   es6: {
-    rollupConfigFile: path.join('test', 'config', 'es6', 'bundle.js'),
-    rollupConfigFileDev: path.join('test', 'config', 'es6', 'bundle-dev.js'),
-    inputFile: path.join('test', 'config', 'es6', 'input.js'),
-    outputFile: path.join('test', 'tmp', 'es6', 'bundle-output.js'),
-    outputFileDev: path.join('test', 'tmp', 'es6', 'bundle-dev-output.js'),
-    outputRefMinFile: path.join('test', 'config', 'es6', 'output-ref.min.js'),
-    outputRefFile: path.join('test', 'config', 'es6', 'output-ref.js'),
+    rollupConfigFile: path.join('test', 'es6', 'rollup.config.prod.js'),
+    rollupConfigFileDev: path.join('test', 'es6', 'rollup.config.dev.js'),
+    inputFile: path.join('test', 'es6', 'input.js'),
+    outputFile: path.join('test', 'tmp', 'es6', 'output', 'rollup', 'bundle-output.min.js'),
+    outputFileDev: path.join('test', 'tmp', 'es6', 'output', 'rollup', 'bundle-output.js'),
+    outputRefMinFile: path.join('test', 'es6', 'ref-output', 'rollup', 'bundle-output.min.js'),
+    outputRefFile: path.join('test', 'es6', 'ref-output', 'rollup', 'bundle-output.js')
   },
   reactJSX: {
-    rollupConfigFile: path.join('test', 'config', 'react-jsx', 'bundle.js'),
-    rollupConfigFileDev: path.join('test', 'config', 'react-jsx', 'bundle-dev.js'),
-    inputFile: path.join('test', 'config', 'react-jsx', 'input.js'),
-    outputFile: path.join('test', 'tmp', 'react-jsx', 'bundle-output.js'),
-    outputFileDev: path.join('test', 'tmp', 'react-jsx', 'bundle-dev-output.js'),
-    outputRefMinFile: path.join('test', 'config', 'react-jsx', 'output-ref.min.js'),
-    outputRefFile: path.join('test', 'config', 'react-jsx', 'output-ref.js'),
+    rollupConfigFile: path.join('test', 'react-jsx', 'rollup.config.prod.js'),
+    rollupConfigFileDev: path.join('test', 'react-jsx', 'rollup.config.dev.js'),
+    inputFile: path.join('test', 'react-jsx', 'input.js'),
+    outputFile: path.join('test', 'tmp', 'react-jsx', 'output', 'rollup', 'bundle-output.min.js'),
+    outputFileDev: path.join('test', 'tmp', 'react-jsx', 'output', 'rollup', 'bundle-output.js'),
+    outputRefMinFile: path.join('test', 'react-jsx', 'ref-output', 'rollup', 'bundle-output.min.js'),
+    outputRefFile: path.join('test', 'react-jsx', 'ref-output', 'rollup', 'bundle-output.js')
   },
   tmpFolder: path.join('test/tmp')
 }
@@ -32,7 +32,7 @@ test('setup', function(t) {
   t.end();
 });
 
-test('builds a minified UMD bundle from a ES6 input file', function(t) {
+test('builds a minified UMD bundle from an ES6 input file', function(t) {
   const rollupConfigFileExists = utils.doesFileExist(config.es6.rollupConfigFile);
   t.ok(rollupConfigFileExists, 'config file exists');
 
@@ -49,8 +49,8 @@ test('builds a minified UMD bundle from a ES6 input file', function(t) {
   t.end();
 });
 
-test('builds a un-minified UMD bundle from a ES6 input file', function(t) {
-  const rollupConfigFileExists = utils.doesFileExist(config.es6.rollupConfigFile);
+test('builds an un-minified UMD bundle from an ES6 input file', function(t) {
+  const rollupConfigFileExists = utils.doesFileExist(config.es6.rollupConfigFileDev);
   t.ok(rollupConfigFileExists, 'config file exists');
 
   const code = execSync(`${rollupBin} -c ${config.es6.rollupConfigFileDev}`);
@@ -100,7 +100,7 @@ test('builds a un-minified UMD bundle from a React/JSX input file', function(t) 
   t.end();
 });
 
-test('teardown', function(t) {
-  execSync(`rm -rf ${config.tmpFolder}`);
-  t.end();
-});
+// test('teardown', function(t) {
+//   execSync(`rm -rf ${config.tmpFolder}`);
+//   t.end();
+// });
