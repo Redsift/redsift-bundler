@@ -10,13 +10,18 @@ var gulp = require('gulp'),
     .describe('c', 'Bundle configuration file')
     .describe('w', 'Bundle working directory (i.e. paths in bundle config file are relative to this)')
     .argv;
+
+  // var pkg = require('package.json');
+  // console.log('R> redsift-bundler v' + pkg.version);
+
 var bundleConfigPath = null,
   opts = {};
 if (argv.w && argv.c) {
   bundleConfigPath = path.join(argv.w, argv.c);
-  console.log('[redsift-bundler] Loading bundle config from: ' + bundleConfigPath);
-console.log('cwd:', process.cwd());
+  console.log('R> Loading bundle config from: ' + bundleConfigPath);
+
   var bundleConfig = require(bundleConfigPath);
+
   opts['workingDir'] = argv.w;
 }
 
