@@ -40,7 +40,8 @@ module.exports = {
       modules: true,
       jsnext: true,
       browser: true,
-      main: true
+      main: true,
+      extensions: [ '.js', '.json' ],
     }),
     filesize()
   ],

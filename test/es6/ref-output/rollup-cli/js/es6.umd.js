@@ -1,8 +1,15 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-  typeof define === 'function' && define.amd ? define(['exports'], factory) :
-  (factory((global.TestBundle = global.TestBundle || {})));
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+	typeof define === 'function' && define.amd ? define(['exports'], factory) :
+	(factory((global.TestBundle = global.TestBundle || {})));
 }(this, (function (exports) { 'use strict';
+
+var hello = "bundler";
+var value = 1;
+var dataNoExt = {
+	hello: hello,
+	value: value
+};
 
 var classCallCheck = function (instance, Constructor) {
   if (!(instance instanceof Constructor)) {
@@ -85,13 +92,13 @@ var _class;
 var _temp;
 
 function test() {
-  console.log('Hello bundle...');
+  console.log('Hello bundle', dataNoExt);
 }
 
 var TestClass = function TestClass() {
   classCallCheck(this, TestClass);
 
-  console.log('constructor');
+  console.log('constructor: ', dataNoExt);
 };
 
 // 'babel-plugin-transform-class-properties' is not enabled currently

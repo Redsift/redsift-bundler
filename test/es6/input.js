@@ -1,10 +1,13 @@
+import data from './data.json';
+import dataNoExt from './data';
+
 export function test() {
-  console.log('Hello bundle...');
+  console.log('Hello bundle', data);
 }
 
 export class TestClass {
   constructor() {
-    console.log('constructor');
+    console.log('constructor: ', dataNoExt);
   }
 }
 
