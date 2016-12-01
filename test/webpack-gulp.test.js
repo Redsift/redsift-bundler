@@ -51,6 +51,27 @@ test('builds a minified UMD bundle from a React/JSX input file', function(t) {
   t.end();
 });
 
+test('imports JSON files', function(t) {
+  const workingDir = path.join('test', 'json');
+  const gulpfile = path.join(workingDir, 'gulpfile.js');
+  const configFile = 'bundle.config.js' // NOTE: relative to workingDir
+
+  const configFileExists = utils.doesFileExist(path.join(workingDir, configFile));
+  t.ok(configFileExists, 'config file exists');
+
+  const exec = './node_modules/.bin/gulp --gulpfile ' + gulpfile + ' -c ' + configFile + ' -w ' + workingDir;
+  console.log('exec:', exec);
+  shell.exec(exec);
+
+  const outputFileExists = utils.doesFileExist(files.json.webpackGulp.created.outputFile);
+  t.ok(outputFileExists, 'gulptask created output file');
+
+  const doFilesMatch = utils.compareFiles(files.json.webpackGulp.created.outputFile, files.json.webpackGulp.reference.outputFile);
+  t.ok(doFilesMatch, 'output file equals reference');
+
+  t.end();
+});
+
 test('teardown', function(t) {
   shell.exec(`rm -rf ${files.tmpFolder}`);
   t.end();

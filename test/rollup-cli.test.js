@@ -72,6 +72,21 @@ test('builds a un-minified UMD bundle from a React/JSX input file', function(t) 
   t.end();
 });
 
+test('imports JSON files', function(t) {
+  const rollupConfigFileExists = utils.doesFileExist(files.json.rollupCLI.config.prod);
+  t.ok(rollupConfigFileExists, 'config file exists');
+
+  const code = execSync(`${rollupBin} -c ${files.json.rollupCLI.config.prod}`);
+
+  const outputFileExists = utils.doesFileExist(files.json.rollupCLI.created.outputFile);
+  t.ok(outputFileExists, 'rollup-cli created output file');
+
+  const doFilesMatch = utils.compareFiles(files.json.rollupCLI.created.outputFile, files.json.rollupCLI.reference.outputFile);
+  t.ok(doFilesMatch, 'output file equals reference');
+
+  t.end();
+});
+
 test('teardown', function(t) {
   execSync(`rm -rf ${files.tmpFolder}`);
   t.end();

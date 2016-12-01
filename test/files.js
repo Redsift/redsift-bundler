@@ -1,6 +1,7 @@
 const path = require('path');
 
 const config = {
+  tmpFolder: path.join('test/tmp'),
   es6: {
     inputFile: path.join('test', 'es6', 'input.js'),
     rollupCLI: {
@@ -57,7 +58,34 @@ const config = {
       }
     }
   },
-  tmpFolder: path.join('test/tmp')
+  json: {
+    inputFile: path.join('test', 'json', 'input.js'),
+    rollupCLI: {
+      config: {
+        prod: path.join('test', 'json', 'rollup.config.prod.js'),
+        dev: path.join('test', 'json', 'rollup.config.dev.js'),
+      },
+      created: {
+        outputFile: path.join('test', 'tmp', 'json', 'output', 'rollup-cli', 'js', 'json.umd.min.js'),
+        outputFileDev: path.join('test', 'tmp', 'json', 'output', 'rollup-cli', 'js', 'json.umd.js')
+      },
+      reference: {
+        outputFile: path.join('test', 'json', 'ref-output', 'rollup-cli', 'js', 'json.umd.min.js'),
+        outputFileDev: path.join('test', 'json', 'ref-output', 'rollup-cli', 'js', 'json.umd.js')
+      }
+    },
+    webpackGulp: {
+      created: {
+        outputFolder: path.join('..', 'tmp', 'json', 'output', 'webpack-gulp'),
+        outputFile: path.join('test', 'tmp', 'json', 'output', 'webpack-gulp', 'js', 'json.umd.min.js'),
+        outputFileDev: path.join('test', 'tmp', 'json', 'output', 'webpack-gulp', 'js', 'json.umd.js')
+      },
+      reference: {
+        outputFile: path.join('test', 'json', 'ref-output', 'webpack-gulp', 'js', 'json.umd.min.js'),
+        outputFileDev: path.join('test', 'json', 'ref-output', 'webpack-gulp', 'js', 'json.umd.js')
+      }
+    }
+  }
 }
 
 module.exports = config;
