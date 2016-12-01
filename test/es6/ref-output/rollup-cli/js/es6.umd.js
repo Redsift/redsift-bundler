@@ -107,4 +107,4 @@ exports.TestClass2 = TestClass2;
 Object.defineProperty(exports, '__esModule', { value: true });
 
 })));
-//# sourceMappingURL=bundle-output.js.map
+//# sourceMappingURL=es6.umd.js.map
