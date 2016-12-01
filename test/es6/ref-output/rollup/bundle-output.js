@@ -94,6 +94,7 @@ var TestClass = function TestClass() {
   console.log('constructor');
 };
 
+// 'babel-plugin-transform-class-properties' is not enabled currently
 var TestClass2 = (_temp = _class = function TestClass2() {
   classCallCheck(this, TestClass2);
   this.myProp2 = 'prop';
