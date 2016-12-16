@@ -12,6 +12,7 @@ const rollupDevConfig = require('../config/rollup/dev');
 
 const webpack = require('webpack-stream');
 const webpackConfig = require('../config/webpack/webpack.config.js');
+const webpackConfigDev = require('../config/webpack/webpack.config.dev.js');
 
 function _createWebpackBundle(gulp, config) {
   const entryFile = config.mainJS.indexFile;
@@ -26,6 +27,22 @@ function _createWebpackBundle(gulp, config) {
 
   return gulp.src(entryFile)
     .pipe(webpack(webpackConfig))
+    .pipe(gulp.dest(dest));
+}
+
+function _createWebpackBundleDev(gulp, config) {
+  const entryFile = config.mainJS.indexFile;
+  const destFile = path.join(config.mainJS.name + '.umd-es2015.js');
+  const dest = path.join(config.outputFolder, 'js');
+
+  if (!webpackConfigDev.output) {
+    webpackConfigDev.output = {};
+  }
+
+  webpackConfigDev.output = Object.assign({}, webpackConfigDev.output, { filename: destFile });
+
+  return gulp.src(entryFile)
+    .pipe(webpack(webpackConfigDev))
     .pipe(gulp.dest(dest));
 }
 
@@ -59,6 +76,8 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
           if (useWebpack) {
             const webpackTask = _createWebpackBundle(gulp, config);
             tps.push(webpackTask);
+            const webpackDevTask = _createWebpackBundleDev(gulp, config);
+            tps.push(webpackDevTask);
           } else {
             if (!path.isAbsolute(config.outputFolder)) {
               dest = path.join(bundlerOpts.workingDir, config.outputFolder, 'js', config.name || '', config.mainJS.name + '.' + format + '-es2015.js');
