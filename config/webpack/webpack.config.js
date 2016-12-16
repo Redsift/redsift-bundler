@@ -26,7 +26,7 @@ module.exports = {
    // NOTE: resolves to $PROJECT_ROOT/ and allows to include files from there. E.g., to include a file from
    // $PROJECT_ROOT/server use 'import settings from "server/settings.js"'.
    root: [ siftRootPath ],
-   extensions: ['', '.js', '.jsx', '.json']
+   extensions: [ '', '.js', '.jsx', '.json', '.tmpl' ]
   },
   // NOTE: keeping that here in case it is necessary in the future (see https://webpack.github.io/docs/configuration.html#module-loaders):
   // resolveLoader: {
@@ -51,6 +51,7 @@ module.exports = {
         }
       },
       { test: /\.json$/, loader: 'json-loader' },
+      { test: /\.tmpl$/, loader: 'html-loader' },
     ],
     // NOTE: keeping that here as a reference on how to use query configuration for loaders:
     // loaders: [{
