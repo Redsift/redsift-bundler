@@ -80,6 +80,8 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
 }
 
 function bundleES6(indexFile, dest, externalMappings) {
+  console.log('R> ES2015 bundling is disabled for now. You can import the entry file directly into your projects.');
+  return;
   // console.log('[bundleES6] src: %s | dest: %s', indexFile, dest);
 
   // All external mappings have to be skipped by the nodeResolve plugin. Otherwise
