@@ -15,7 +15,7 @@ const webpackConfig = require('../config/webpack/webpack.config.js');
 
 function _createWebpackBundle(gulp, config) {
   const entryFile = config.mainJS.indexFile;
-  const destFile = path.join(config.mainJS.name + '.umd.min.js');
+  const destFile = path.join(config.mainJS.name + '.umd-es2015.min.js');
   const dest = path.join(config.outputFolder, 'js');
 
   if (!webpackConfig.output) {
