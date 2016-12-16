@@ -1,7 +1,7 @@
 {
   "name": "@redsift/redsift-bundler",
-  "version": "0.7.0-rc5",
-  "description": "Package up your ES2015/Stylus/CSS application for distribution.",
+  "version": "0.7.0",
+  "description": "Bundle your ES2015/Stylus/CSS application for distribution.",
   "bin": {
     "redsift-bundler": "./bin/bundle.js",
     "redsift-serve": "./bin/serve.js"
