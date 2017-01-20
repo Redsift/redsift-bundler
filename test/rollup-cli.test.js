@@ -87,7 +87,7 @@ test('imports JSON files', function(t) {
   t.end();
 });
 
-// test('teardown', function(t) {
-//   execSync(`rm -rf ${files.tmpFolder}`);
-//   t.end();
-// });
+test('teardown', function(t) {
+  execSync(`rm -rf ${files.tmpFolder}`);
+  t.end();
+});

@@ -11,13 +11,31 @@ const rollupConfig = require('../config/rollup/prod');
 const rollupDevConfig = require('../config/rollup/dev');
 
 const webpack = require('webpack-stream');
-const webpackConfig = require('../config/webpack/webpack.config.js');
-const webpackConfigDev = require('../config/webpack/webpack.config.dev.js');
 
-function _createWebpackBundle(gulp, config) {
+// Loading either default webpack configs or user provided ones:
+function _loadWebpackConfig(configFileName) {
+  const customWebpackConfigPath = path.join(process.cwd(), configFileName);
+
+  let webpackConfig = null;
+
+  try {
+    webpackConfig = require(customWebpackConfigPath);
+  } catch(err) {}
+
+  if (!webpackConfig) {
+    webpackConfig = require('../config/webpack/webpack.config.js');
+  } else {
+    console.log('R> loaded custom webpack config: ', customWebpackConfigPath)
+  }
+
+  return webpackConfig;
+}
+
+function _createWebpackBundle(gulp, config, bundlerOpts) {
   const entryFile = config.mainJS.indexFile;
   const destFile = path.join(config.mainJS.name + '.umd-es2015.min.js');
   const dest = path.join(config.outputFolder, 'js');
+  const webpackConfig = _loadWebpackConfig('webpack.config.js');
 
   if (!webpackConfig.output) {
     webpackConfig.output = {};
@@ -30,10 +48,11 @@ function _createWebpackBundle(gulp, config) {
     .pipe(gulp.dest(dest));
 }
 
-function _createWebpackBundleDev(gulp, config) {
+function _createWebpackBundleDev(gulp, config, bundlerOpts) {
   const entryFile = config.mainJS.indexFile;
   const destFile = path.join(config.mainJS.name + '.umd-es2015.js');
   const dest = path.join(config.outputFolder, 'js');
+  const webpackConfigDev = _loadWebpackConfig('webpack.config.dev.js');
 
   if (!webpackConfigDev.output) {
     webpackConfigDev.output = {};
@@ -74,9 +93,9 @@ module.exports = function setupTask(gulp, bundles, bundlerOpts) {
         else {
           const useWebpack = true;
           if (useWebpack) {
-            const webpackTask = _createWebpackBundle(gulp, config);
+            const webpackTask = _createWebpackBundle(gulp, config, bundlerOpts);
             tps.push(webpackTask);
-            const webpackDevTask = _createWebpackBundleDev(gulp, config);
+            const webpackDevTask = _createWebpackBundleDev(gulp, config, bundlerOpts);
             tps.push(webpackDevTask);
           } else {
             if (!path.isAbsolute(config.outputFolder)) {
