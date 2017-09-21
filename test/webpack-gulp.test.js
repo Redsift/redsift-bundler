@@ -89,7 +89,7 @@ test('imports HTML template files', function(t) {
   t.end();
 });
 
-test('teardown', function(t) {
-  shell.exec(`rm -rf ${files.tmpFolder}`);
-  t.end();
-});
+// test('teardown', function(t) {
+//   shell.exec(`rm -rf ${files.tmpFolder}`);
+//   t.end();
+// });

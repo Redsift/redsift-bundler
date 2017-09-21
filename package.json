@@ -1,6 +1,6 @@
 {
   "name": "@redsift/redsift-bundler",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Bundle your ES2015/Stylus/CSS application for distribution.",
   "bin": {
     "redsift-bundler": "./bin/bundle.js",
@@ -28,16 +28,13 @@
   "homepage": "https://github.com/Redsift/redsift-bundler#readme",
   "main": "./index.js",
   "dependencies": {
-    "babel": "^6.5.2",
     "babel-core": "^6.18.2",
     "babel-loader": "^6.2.8",
     "babel-plugin-external-helpers": "^6.18.0",
     "babel-plugin-transform-class-properties": "^6.19.0",
     "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-preset-es2015": "^6.18.0",
-    "babel-preset-es2015-loose": "^8.0.0",
+    "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.16.0",
-    "babel-preset-stage-0": "^6.16.0",
     "browser-sync": "2.16.0",
     "del": "*",
     "eslint-plugin-react": "^6.7.1",
@@ -78,6 +75,9 @@
   "devDependencies": {
     "@redsift/sift-sdk-web": "^0.7.0",
     "@redsift/tape-reel": "^0.1.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-polyfill": "^6.23.0",
+    "babel-preset-env": "^1.6.0",
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "shelljs": "^0.7.5"

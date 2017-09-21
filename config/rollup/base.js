@@ -14,8 +14,12 @@ module.exports = {
     babel({
       babelrc: false,
       exclude: 'node_modules/**',
-      presets: [ [ 'es2015', { modules: false } ], 'stage-0', 'react' ],
-      plugins: [ 'external-helpers', 'transform-decorators-legacy' ]
+      presets: [ [ 'env', { modules: false } ], 'react' ],
+      plugins: [
+        'external-helpers',
+        'transform-decorators-legacy',
+        'transform-class-properties'
+      ]
     }),
     cjs({
       exclude: 'node_modules/process-es6/**',

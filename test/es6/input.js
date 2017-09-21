@@ -8,7 +8,7 @@ export class TestClass {
   }
 }
 
-// supported by the 'stage-0' preset
+// supported by the 'env' preset
 export class TestClass2 {
   static myProp1 = 'static prop';
   myProp2 = 'prop';
