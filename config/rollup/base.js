@@ -14,11 +14,10 @@ module.exports = {
     babel({
       babelrc: false,
       exclude: 'node_modules/**',
-      presets: [ [ 'env', { modules: false } ], 'react' ],
+      presets: [ [ '@babel/preset-env', { modules: false } ], '@babel/preset-react' ],
       plugins: [
-        'external-helpers',
-        'transform-decorators-legacy',
-        'transform-class-properties'
+        '@babel/plugin-proposal-decorators',
+        '@babel/plugin-proposal-class-properties'
       ]
     }),
     cjs({

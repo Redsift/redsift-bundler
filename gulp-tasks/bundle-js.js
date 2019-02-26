@@ -32,7 +32,7 @@ function _loadWebpackConfig(configFileName) {
 }
 
 function _createWebpackBundle(gulp, config, bundlerOpts) {
-  const entryFile = [ 'babel-polyfill', config.mainJS.indexFile ];
+  const entryFile = [ '@babel/polyfill', config.mainJS.indexFile ];
   const destFile = path.join(config.mainJS.name + '.umd-es2015.min.js');
   const dest = path.join(config.outputFolder, 'js');
   const webpackConfig = _loadWebpackConfig('webpack.config.js');

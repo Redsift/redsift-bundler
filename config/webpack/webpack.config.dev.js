@@ -12,8 +12,8 @@ console.log('R> redsift-bundler v' + pkg.version);
 console.log('');
 
 if (debug) {
-  console.log('R> loading preset "es2015" from:', require.resolve('babel-preset-env'));
-  console.log('R> loading preset "react" from:', require.resolve('babel-preset-react'));
+  console.log('R> loading preset "es2015" from:', require.resolve('@babel/preset-env'));
+  console.log('R> loading preset "react" from:', require.resolve('@babel/preset-react'));
   console.log('');
   console.log('R> add folder to resolve list:', siftRootPath);
   console.log('');
@@ -43,11 +43,11 @@ module.exports = {
             // listing the presets as ['es2015', 'react'] they would be resolved from $PROJECT_ROOT, which fails if
             // they are not explicitly installed there.
             // See https://github.com/babel/babel-loader/issues/149 for a discussion on the topic.
-            require.resolve('babel-preset-env'),
-            require.resolve('babel-preset-react'),
+            require.resolve('@babel/preset-env'),
+            require.resolve('@babel/preset-react'),
           ],
           plugins: [
-            require.resolve('babel-plugin-transform-class-properties'),
+            require.resolve('@babel/plugin-proposal-class-properties'),
           ],
         }
       },
